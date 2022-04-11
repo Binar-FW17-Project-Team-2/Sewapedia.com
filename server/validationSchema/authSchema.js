@@ -2,12 +2,16 @@ const Joi = require('joi')
 
 const email = Joi.string()
 const password = Joi.string().min(5)
-const role = Joi.string()
+const firstName = Joi.string()
+const lastName = Joi.string()
+const address = Joi.string()
 
 const registerUserSchema = Joi.object({
   email: email.required(),
   password: password.required(),
-  role: role.required()
+  firstName: firstName.required(),
+  lastName: lastName.required(),
+  address: address.required()
 })
 
 const loginUserSchema = Joi.object({
