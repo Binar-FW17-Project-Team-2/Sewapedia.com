@@ -13,16 +13,19 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Product.belongsToMany(models.User, {
         through: models.Wishlist,
+        as: 'user_wishlist',
         foreignKey: 'productId',
         otherKey: 'userId'
       })
       Product.belongsToMany(models.User, {
         through: models.Payment,
+        as: 'user_payment',
         foreignKey: 'productId',
         otherKey: 'userId'
       })
       Product.belongsToMany(models.User, {
         through: models.RentedProduct,
+        as: 'user_rented',
         foreignKey: 'productId',
         otherKey: 'userId'
       })
@@ -91,7 +94,15 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Product',
     tableName: 'products',
-    timestamps: false
+    timestamps: false,
+    hooks: {
+      beforeCreate: categoryLowercase,
+      beforeUpdate: categoryLowercase
+    }
   });
   return Product;
 };
+
+function categoryLowercase(product, options) {
+  product.category = product.category.toLowerCase()
+}
