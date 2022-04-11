@@ -60,12 +60,6 @@ const FAQ = () => {
                 kembalikan jadi anda tidak harus menyimpan barang yang anda
                 tidak pakai. Betul?
               </Typography>
-              <Typography variant="h5">
-                You can watch as much as you want, whenever you want without a
-                single commercial – all for one low monthly price. There is
-                always something new to discover and new TV shows and movies are
-                added every week!
-              </Typography>
             </AccordionDetails>
           </CustomAccordion>
           <CustomAccordion
