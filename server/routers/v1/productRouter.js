@@ -3,7 +3,7 @@ const { getProducts, addProduct, updateProductById, deleteProductById } = requir
 
 product.post('/', addProduct)
 product.get('/', getProducts)
-product.put('/update/:id', updateProductById)
-product.delete('/delete/:id', deleteProductById)
+product.put('/:id', updateProductById)
+product.delete('/:id', deleteProductById)
 
 module.exports = product
