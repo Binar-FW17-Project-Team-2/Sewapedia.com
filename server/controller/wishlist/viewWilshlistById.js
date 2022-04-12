@@ -1,4 +1,4 @@
-const { User } = require('../../models')
+const { User, Product } = require('../../models')
 
 module.exports = async(req,res) => {
     try {        
@@ -12,10 +12,10 @@ module.exports = async(req,res) => {
                 id: userId
             }
         })
-        const wishlistData = viewWishlist[0].product_wishlist.map((e) => {return e.name})
-        if(wishlistData.length == 0) return res.status(500).json({message: 'id not found'})
+        const wishlistData = viewWishlist[0].product_wishlist
+        if(wishlistData.length == 0) return res.status(400).json({message: 'wishlist is not created yet'})
         return res.status(200).json({wishlistData})
     } catch (error) {
-        res.status(500).json({message: 'Internal Server ERROR'})
+        console.log(error)
     }
 }

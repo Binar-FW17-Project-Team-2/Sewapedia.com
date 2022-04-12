@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
     })
     res.status(200).json([1, userWithoutPw])
   } catch (error) {
-    if (!error[0]) res.status(400).json(error);
+    if (!error[0]) res.status(400).json(error.message);
     else res.status(500).json({message: 'Internal server ERROR'});
   }
 } 
