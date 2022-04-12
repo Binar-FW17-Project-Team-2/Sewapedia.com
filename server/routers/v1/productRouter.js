@@ -12,7 +12,7 @@ product.get('/', getProducts)
 product.get('/category', getListCategory)
 product.use(isAuthenticated, isAuthorized([{role: 'admin'}]))
 product.post('/', addProduct)
-product.put('/update/:id', updateProductById)
-product.delete('/delete/:id', deleteProductById)
+product.put('/:id', updateProductById)
+product.delete('/:id', deleteProductById)
 
 module.exports = product
