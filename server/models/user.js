@@ -19,16 +19,19 @@ module.exports = (sequelize, DataTypes) => {
       })
       User.belongsToMany(models.Product, {
         through: models.Wishlist,
+        as: 'product_wishlist',
         foreignKey: 'userId',
         otherKey: 'productId'
       })
       User.belongsToMany(models.Product, {
         through: models.Payment,
+        as: 'product_payment',
         foreignKey: 'userId',
         otherKey: 'productId'
       })
       User.belongsToMany(models.Product, {
         through: models.RentedProduct,
+        as: 'product_rented',
         foreignKey: 'userId',
         otherKey: 'productId'
       })
