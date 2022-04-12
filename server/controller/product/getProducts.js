@@ -5,11 +5,11 @@ module.exports = async (req, res, next) => {
     const {limit, offset, category} = req.query;
     const products = await Product.findAndCountAll({
       where: category? {category} : {},
-      limit,
-      offset
+      limit: limit || null,
+      offset: offset || null
     })
     res.status(200).json(products)
   } catch (error) {
-    res.status(500).json({error: error.message})
+    res.status(500).json({message: 'Internal server ERROR'})
   }
 }

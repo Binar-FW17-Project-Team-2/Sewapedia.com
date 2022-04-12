@@ -19,7 +19,7 @@ module.exports = (options) => {
       }
       if (opt.role === role) isAuthorized = true;
       if (!opt.sameUser) continue;
-      if (id != uid) isAuthorized = false;  
+      if (opt.role === role && id != uid) isAuthorized = false;  
       if (isAuthorized) break;
     }
     isAuthorized
