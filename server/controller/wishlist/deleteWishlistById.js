@@ -10,7 +10,7 @@ module.exports = async(req,res) => {
               productId: productId
             }
         })
-        return res.status(200).json([1, {message: 'delete success'}])
+        return res.status(200).json({message: 'delete success'})
     } catch (error) {
         res.status(500).json({message: 'internal server error'})
     }
