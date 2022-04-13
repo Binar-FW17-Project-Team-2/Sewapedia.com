@@ -2,7 +2,7 @@ const { User, Biodata } = require('../../models')
 const { validationHandler } = require('../../utils/validationHandler')
 
 class AuthController {
-    static async register (req, res) {
+    static async register(req, res) {
         try {
             const { email, password } = req.body
             const isEmailExist = await User.findOne({ where : {email}})
