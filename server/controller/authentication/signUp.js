@@ -1,4 +1,5 @@
 const { User, Biodata } = require('../../models')
+const { validationHandler } = require('../../utils/validationHandler')
 
 class AuthController {
     static async register (req, res) {
@@ -18,11 +19,12 @@ class AuthController {
                     address: req.body.address
                 })
                 res.status(200).json({ data })
-            }).catch(error => {
-                throw new Error(error)
+            }).catch(err => {
+                const error = validationHandler(err)
+                error ? res.status(400).json(error) : res.status(500).json({message: 'Internal Server Error'})
             })
         } catch (error) {
-            throw new Error(error)
+            error ? res.status(400).json(error) : res.status(500).json({message: 'Internal Server Error'})
         }
     }
 }   
