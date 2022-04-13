@@ -5,28 +5,21 @@ class AuthController {
     static async register (req, res) {
         try {
             const { email, password } = req.body
-            const isEmailExist = await User.findOne({ where: { email }})
-            if (isEmailExist){
-                res.status(409).json({ message: 'email alrady take' })
-            }
-            return await User.create({
-                email, password
-            }).then(data => {
-                Biodata.create({
-                    userId: data.id,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    address: req.body.address
-                })
-                res.status(200).json({ data })
-            }).catch(err => {
-                const error = validationHandler(err)
-                error ? res.status(400).json(error) : res.status(500).json({message: 'Internal Server Error'})
+            const isEmailExist = await User.findOne({ where : {email}})
+            if (isEmailExist) return res.status(400).json({ message: 'Email already taken'})
+
+            const payload = { email, password }
+            const user = await User.create(payload)
+            const biodata = await Biodata.create({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                address: req.body.address,
+                userId: user.id
             })
+            return res.status(201).json({ message: 'user created' })
         } catch (error) {
-            error ? res.status(400).json(error) : res.status(500).json({message: 'Internal Server Error'})
+            res.status(400).json({error})
         }
     }
-}   
-
+}
 module.exports= AuthController
