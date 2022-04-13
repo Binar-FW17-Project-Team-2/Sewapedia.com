@@ -5,6 +5,8 @@ module.exports = async(req,res) => {
     try {
         const userId = req.user.id
         const productId = req.body.productId
+        const existedWishlist = await Wishlist.findOne({where:{userId: userId, productId: productId}})
+        if(existedWishlist) return res.status(400).json({message: 'item already existed in wishlist'})
         const createWishlist = await Wishlist.create({userId, productId})
         res.status(201).json({message:'success adding wishlist', data: createWishlist})
     } catch (err) {
