@@ -3,8 +3,8 @@ const { validationHandler } = require('../../utils')
 
 module.exports = async(req,res) => {
     try {
-        const { productId } = req.body
         const userId = req.user.id
+        const productId = req.body.productId
         const createWishlist = await Wishlist.create({userId, productId})
         res.status(201).json({message:'success adding wishlist', data: createWishlist})
     } catch (err) {

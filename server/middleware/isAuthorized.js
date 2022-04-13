@@ -1,3 +1,4 @@
+
 /**
  * 
  * @options 
@@ -7,7 +8,7 @@
  * hanya bisa akses punya sendiri siapapun itu
  */
 
-module.exports = (options) => {
+ module.exports = (options) => {
   return (req, res, next) => {
     const {role, id} = req.user;
     const uid = req.query.userId || req.params.id;
