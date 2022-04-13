@@ -18,7 +18,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" to="https://mui.com/">
         Sewapedia
       </Link>{" "}
       {new Date().getFullYear()}
@@ -75,7 +75,7 @@ export default function ForgotPassword() {
               variant="h5"
               style={{ marginBottom: "40px" }}
             >
-              Regsiter to your account
+              Forgot Password
             </Typography>
             <Box
               component="form"
