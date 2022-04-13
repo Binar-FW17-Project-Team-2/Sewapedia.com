@@ -9,12 +9,12 @@ import CartPage from './Pages/CartPage';
 
 function App() {
   return (
-      <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path='/cart' element={<CartPage />}/>
-        <Route path='/about' element={<About />}/>
-        <Route path='/faq' element={<FAQ />}/>
-      </Routes>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/cart' element={<CartPage />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/faq' element={<FAQ />} />
+    </Routes>
 
   );
 }
