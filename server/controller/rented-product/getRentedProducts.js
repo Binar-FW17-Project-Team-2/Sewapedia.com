@@ -2,6 +2,7 @@ const { RentedProduct, User, Product } = require('../../models')
 
 module.exports = async(req,res) => {
     try {
+        const userId = req.query.userId
         const rentedProduct = await RentedProduct.findAll({
             include: [
                 {
@@ -14,7 +15,8 @@ module.exports = async(req,res) => {
                     as: 'rentedProduct',
                     attributes: ['name', 'img_url']
                 }
-            ]
+            ],
+            where: userId ? {userId : userId} : null
         })
         res.status(200).send(rentedProduct) 
     } catch (error) {
