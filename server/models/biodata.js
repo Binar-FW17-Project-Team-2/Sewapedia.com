@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Biodata.belongsTo(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        as: 'User'
       })
     }
   }
@@ -24,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     firstName: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(70),
       allowNull: false,
       validate: {
         notEmpty: {
@@ -32,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: `first name can't be empty`
         },
         len: {
-          args: [0, 50],
+          args: [0, 70],
           msg: `first name must be less than 50`
         },
         notNull: {msg: 'cannot be null'}
@@ -40,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     lastName: {
       type: DataTypes.STRING(50),
-      allowNull: false,
+      allowNull: true,
       validate: {
         notEmpty: {
           args: true,
@@ -49,8 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         len: {
           args: [0, 50],
           msg: `last name must be less than 50`
-        },
-        notNull: {msg: 'cannot be null'}
+        }
       }
     },
     address: {

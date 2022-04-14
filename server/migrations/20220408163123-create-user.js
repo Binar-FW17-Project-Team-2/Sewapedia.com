@@ -20,6 +20,9 @@ module.exports = {
       img_url: {
         type: Sequelize.STRING
       },
+      linkForgotPw: {
+        type: Sequelize.STRING
+      },
       role: {
         type: Sequelize.ENUM,
         values: ['admin', 'user'],
