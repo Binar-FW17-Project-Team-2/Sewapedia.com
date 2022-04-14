@@ -3,8 +3,8 @@ const { createWishlist, viewWilshlistById, deleteWishlistById } = require('../..
 const { isAuthenticated, isAuthorized } = require('../../middleware')
 
 wishlist.use(isAuthenticated)
+wishlist.use(isAuthorized([{role: 'admin'}, {role:'user', sameUser: true}]))
 wishlist.post('/', createWishlist)
-wishlist.use(isAuthorized([{sameUser: true}]))
 wishlist.get('/', viewWilshlistById)
 wishlist.delete('/', deleteWishlistById)
 
