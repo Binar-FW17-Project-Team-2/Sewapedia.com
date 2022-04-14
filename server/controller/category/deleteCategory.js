@@ -8,6 +8,6 @@ module.exports = async (req, res) => {
     const category = await Category.destroy({where: {name}});
     res.status(200).json([1, {message: 'category berhasil dihapus'}])
   } catch (error) {
-    res.status(500).json(error.message)
+    res.status(500).json('Internal server ERROR')
   }
 }
