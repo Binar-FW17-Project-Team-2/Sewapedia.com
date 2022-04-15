@@ -5,7 +5,8 @@ module.exports = async (req, res) => {
         const id = req.params.id
         const updateUser = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            img_url: req.body.img_url
         } 
         await User.update(updateUser, { where: {id}, individualHooks: true})
         res.status(201).json({ message: 'berhasil diedit' })
