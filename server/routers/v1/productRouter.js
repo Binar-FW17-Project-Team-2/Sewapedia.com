@@ -6,11 +6,11 @@ const {
   deleteProductById,
   getListCategory
 } = require('../../controller/product')
-const { isAuthenticated, isAuthorized} = require('../../middleware')
+const { isAuthenticated, roleAuthorization} = require('../../middleware')
 
 product.get('/', getProducts)
 product.get('/category', getListCategory)
-product.use(isAuthenticated, isAuthorized([{role: 'admin'}]))
+product.use(isAuthenticated, roleAuthorization('admin'))
 product.post('/', addProduct)
 product.put('/:id', updateProductById)
 product.delete('/:id', deleteProductById)
