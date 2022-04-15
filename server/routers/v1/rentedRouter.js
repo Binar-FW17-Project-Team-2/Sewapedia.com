@@ -1,9 +1,9 @@
 const rented = require('express').Router()
 const { getRentedProducts } = require('../../controller/rented-product')
-const { isAuthenticated, isAuthorized } = require('../../middleware')
+const { isAuthenticated, roleAuthorization } = require('../../middleware')
 
 rented.use(isAuthenticated)
-rented.use(isAuthorized([{role: 'admin'}, {role:'user', sameUser: true}]))
+rented.use(roleAuthorization())
 rented.get('/', getRentedProducts)
 
 
