@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         otherKey: 'productId'
       })
+      User.hasMany(models.RentedProduct, {
+        foreignKey: 'userId'
+      })
     }
   }
   User.init({
@@ -74,6 +77,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       values: ['admin', 'user'],
       defaultValue: 'user'
+    },
+    linkForgotPw: {
+      type: DataTypes.STRING()
     }
   }, {
     sequelize,

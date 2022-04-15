@@ -14,7 +14,7 @@ module.exports = async(req,res) => {
         })
         const wishlistData = viewWishlist[0].product_wishlist
         if(wishlistData.length == 0) return res.status(400).json({message: 'wishlist is not created yet'})
-        return res.status(200).json({wishlistData})
+        return res.status(200).send(wishlistData)
     } catch (error) {
         console.log(error)
     }
