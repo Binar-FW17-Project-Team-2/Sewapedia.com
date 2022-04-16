@@ -4,20 +4,23 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import About from './Pages/About';
 import Home from './Pages/Home';
-import FAQ from './Component/FAQ';
-import DashboardAdmin from './Component/AdminDashboard/DashboardAdmin';
-import Products from './Pages/Products';
-import Users from './Pages/Users';
+import Products from './Pages/Products/Products';
+import Users from './Pages/Users/Users';
+import Transactions from './Pages/Transactions/Transactions';
+import Categories from './Pages/Categories/Categories';
+import DashboardMenu from './Component/AdminDashboard/DashboardMenu';
 
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
-      <Route path='/dashboard' element={<DashboardAdmin />} />
+      <Route path='/dashboard' element={<DashboardMenu />} />
       <Route path='/users' element={<Users />} />
       <Route path='/about' element={<About />} />
       <Route path='/products' element={<Products />} />
+      <Route path='/transactions' element={<Transactions />} />
+      <Route path='/categories' element={<Categories />} />
     </Routes>
 
   );

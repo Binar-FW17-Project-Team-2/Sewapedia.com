@@ -1,16 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
+import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import NavBarAdmin from "./NavbarAdmin";
 import SideDrawerData from "./SideDrawerData";
 import { useNavigate } from "react-router-dom";
 
@@ -25,45 +22,36 @@ export default function SideDrawer() {
         <CssBaseline />
         <AppBar
           position="fixed"
-          sx={{
-            width: `calc(100% - ${drawerWidth}px)`,
-            ml: `${drawerWidth}px`,
-          }}
-        >
-          <NavBarAdmin />
-        </AppBar>
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        ></AppBar>
         <Drawer
+          variant="permanent"
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            "& .MuiDrawer-paper": {
+            [`& .MuiDrawer-paper`]: {
               width: drawerWidth,
               boxSizing: "border-box",
-              background: "#ffcd38",
             },
           }}
-          variant="permanent"
-          anchor="left"
         >
           <Toolbar />
-          <Divider />
-          <List>
-            {SideDrawerData.map((data) => (
-              <ListItem
-                button
-                onClick={() => history.push(data.link)}
-                key={data.title}
-              >
-                <ListItemIcon>{data.icon}</ListItemIcon>
-                <ListItemText primary={data.title} />
-              </ListItem>
-            ))}
-          </List>
+          <Box sx={{ overflow: "auto" }}>
+            <List>
+              {SideDrawerData.map((data) => (
+                <ListItem
+                  button
+                  onClick={() => history(data.path)}
+                  key={data.title}
+                >
+                  <ListItemIcon>{data.icon}</ListItemIcon>
+                  <ListItemText primary={data.title} />
+                </ListItem>
+              ))}
+            </List>
+          </Box>
         </Drawer>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
-        >
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
         </Box>
       </Box>
