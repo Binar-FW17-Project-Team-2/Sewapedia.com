@@ -31,5 +31,18 @@ const sendReceipt = (to, payment) => {
   }
 }
 
-module.exports = {transporter, sendReceipt}
+const forgotPw = (to, link, expired ) => {
+  return {
+    from: process.env.EMAIL,
+    to: to,
+    subject: 'link reset password',
+    html: `
+      <h3>Link reset password</h3>
+      <h6>expired in ${expired} second</h6>
+      <a href='http://localhost:3000/resetpassword/${link}'>reset password</a>
+    `
+  }
+}
+
+module.exports = {transporter, sendReceipt, forgotPw}
   

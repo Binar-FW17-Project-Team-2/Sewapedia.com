@@ -29,6 +29,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'productId',
         otherKey: 'userId'
       })
+      Product.hasMany(models.RentedProduct, {
+        foreignKey: 'productId'
+      })
+      Product.belongsTo(models.Category, {
+        foreignKey: 'category',
+        as: 'Category'
+      })
     }
   }
   Product.init({
@@ -49,19 +56,8 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: `can't be null`}
       }
     },
-    category: {
-      type: DataTypes.STRING(),
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: `category can't be empty`
-        },
-        notNull: {msg: `can't be null`}
-      }
-    },
     details: {
-      type: DataTypes.STRING(),
+      type: DataTypes.TEXT(),
       allowNull: false,
       validate: {
         notEmpty: {
