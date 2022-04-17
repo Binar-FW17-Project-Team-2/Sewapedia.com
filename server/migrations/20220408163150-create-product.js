@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false,
       },
       details: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       img_url: {
