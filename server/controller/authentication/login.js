@@ -1,29 +1,30 @@
-const { User, Biodata } = require('../../models');
-const bcrypt = require('bcrypt');
-const { createToken, maxAge } = require('../../utils/tokenHandler');
+const { User, Biodata } = require("../../models");
+const bcrypt = require("bcrypt");
+const { createToken, maxAge } = require("../../utils/tokenHandler");
 
 module.exports = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { email: req.body.email },
-      attributes: ['email', 'id', 'img_url', 'role', 'password'],
+      attributes: ["email", "id", "img_url", "role", "password"],
       include: {
         model: Biodata,
-        as: 'Biodata',
-        attributes: ['firstName', 'lastName']
-      }
+        as: "Biodata",
+        attributes: ["firstName", "lastName"],
+      },
     });
     const { password, ...payload } = user.dataValues;
-    if (!user) throw [0, {email: 'invalid email'}];
+    if (!user) throw [0, { email: "invalid email" }];
     const auth = await bcrypt.compare(req.body.password, password);
-    if(!auth) throw [0, {password: 'invalid password'}];
+    if (!auth) throw [0, { password: "invalid password" }];
     const token = createToken(payload);
-    res.cookie('token', token, {
-      maxAge: maxAge * 1000, httpOnly: true
-    })
-    res.status(200).json([1, payload])
+    res.cookie("token", token, {
+      maxAge: maxAge * 1000,
+      httpOnly: true,
+    });
+    res.status(200).json({ status: 200, payload });
   } catch (error) {
     if (!error[0]) res.status(400).json(error);
-    else res.status(500).json({message: 'Internal server ERROR'});
+    else res.status(500).json({ message: "Internal server ERROR" });
   }
-} 
+};
