@@ -21,6 +21,7 @@ module.exports = async (req, res, next) => {
     res.cookie('token', token, {
       maxAge: maxAge * 1000, httpOnly: true
     })
+    payload.token = token;
     res.status(200).json([1, payload])
   } catch (error) {
     if (!error[0]) res.status(400).json(error);
