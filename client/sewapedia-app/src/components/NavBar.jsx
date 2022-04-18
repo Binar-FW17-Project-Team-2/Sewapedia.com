@@ -197,8 +197,8 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             {/* button login&register */}
-            <ColorButton variant="contained" href="/signin">Login</ColorButton>
-            <ColorButton variant="contained" href="/signup">Register</ColorButton>
+            <ColorButton variant="contained">Login</ColorButton>
+            <ColorButton variant="contained">Register</ColorButton>
             <IconButton
               size="large"
               edge="end"
