@@ -41,8 +41,8 @@ export default function SignInSide() {
       lastName: "",
       address: "",
     },
-    onSubmit: (values) => {
-      fetch("http://localhost:4000/api/v1/signup", {
+    onSubmit: async (values) => {
+      const response = await fetch("http://localhost:4000/api/v1/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,22 +53,12 @@ export default function SignInSide() {
           lastName: values.lastName,
           address: values.address,
         }),
-      })
-        .then((response) => {
-          console.log(response);
-          console.log(response);
-          return response.json();
-         
-        })
-        .then((data) => {
-          console.log(data);
-          console.log(data.message);
-          console.log('asdasd');
-          if (data.status == 201) {
-            navigate("/signIn");
-          } 
-        })
-        .catch((err) => console.log(err));
+      });
+      const data = await response.json();
+      // if u want to implement any toaster notification use if (data.status !== 201) toast(something)
+      if (data.status === 201) {
+        navigate("/signin");
+      }
     },
   });
   return (
