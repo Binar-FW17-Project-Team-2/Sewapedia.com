@@ -1,3 +1,4 @@
+
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/footer";
@@ -23,6 +24,7 @@ export default function Home() {
           <h1>CONTENT</h1>
           <h1>CONTENT</h1>
           <h1>CONTENT</h1>
+
           <div id="footer">
             This is a footer. This stays at the bottom of the page.
           </div>
