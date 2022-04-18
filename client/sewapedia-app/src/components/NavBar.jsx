@@ -1,22 +1,25 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Badge,
+  MenuItem,
+  Menu,
+  Tab,
+  Tabs,
+  styled,
+  Button,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Button from "@mui/material/Button";
-import { Tab, Tabs } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Link } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(grey[400]),
@@ -33,6 +36,8 @@ export default function PrimarySearchAppBar() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const [tabValue, setTabValue] = React.useState("product");
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -71,10 +76,19 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>1</MenuItem>
-      <MenuItem onClick={handleMenuClose}>2</MenuItem>
-      <MenuItem onClick={handleMenuClose}>3</MenuItem>
-      <MenuItem onClick={handleMenuClose}>4</MenuItem>
+      {/* If you want to implement this as getting product by categories just map the categories first then set the value as the catogeries name */}
+      <MenuItem value="1" onClick={handleMenuClose}>
+        1
+      </MenuItem>
+      <MenuItem value="2" onClick={handleMenuClose}>
+        2
+      </MenuItem>
+      <MenuItem value="3" onClick={handleMenuClose}>
+        3
+      </MenuItem>
+      <MenuItem value="4" onClick={handleMenuClose}>
+        4
+      </MenuItem>
     </Menu>
   );
 
@@ -155,19 +169,12 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            LOGO
+            a LOGO
           </Typography>
-
-          <Tabs
-            sx={{ marginLeft: "150px" }}
-            indicatorColor="black"
-            textColor="black"
-            textSize="500"
-          >
-            <Tab label="Products" />
-
+          <Tabs sx={{ marginLeft: "150px", color: "black" }} value={tabValue}>
+            <Tab value="product" label="Products" href="/product" />
             <Button
-              marginTop="-100px"
+              mt="-100px"
               id="demo-customized-button"
               aria-controls={open ? "demo-customized-menu" : undefined}
               aria-haspopup="true"
@@ -178,7 +185,6 @@ export default function PrimarySearchAppBar() {
             >
               Category
             </Button>
-
             <Tab label="Contact & About Us" />
           </Tabs>
 
