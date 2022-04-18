@@ -78,9 +78,6 @@ module.exports = (sequelize, DataTypes) => {
       values: ['admin', 'user'],
       defaultValue: 'user'
     },
-    linkForgotPw: {
-      type: DataTypes.STRING()
-    }
   }, {
     sequelize,
     modelName: 'User',
