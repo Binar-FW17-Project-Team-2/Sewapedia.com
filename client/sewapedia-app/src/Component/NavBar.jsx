@@ -168,7 +168,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            LOGO
+            a LOGO
           </Typography>
 
           <Tabs sx={{ marginLeft: "150px", color: "black" }} value={tabValue}>
