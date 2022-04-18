@@ -2,7 +2,7 @@ const { User } = require('../../models')
 
 module.exports = async (req, res) => {
     try {
-        const id = req.params.id
+        const id = req.user.id
         const updateUser = {
             email: req.body.email,
             password: req.body.password,
