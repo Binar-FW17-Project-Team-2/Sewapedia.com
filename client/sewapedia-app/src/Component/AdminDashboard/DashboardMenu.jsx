@@ -24,7 +24,7 @@ export default function DashboardMenu() {
               aria-label="outlined primary button group"
             >
               <Button>Dashboard</Button>
-              <Button onClick={() => navigate("/users")}>Users</Button>
+              <Button onClick={() => navigate("/user")}>Users</Button>
               <Button onClick={() => navigate("/products")}>Products</Button>
               <Button onClick={() => navigate("/transactions")}>
                 Transactions

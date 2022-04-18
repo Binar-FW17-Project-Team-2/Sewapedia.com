@@ -14,7 +14,7 @@ const SideDrawerData = [
   {
     title: "Users",
     icon: <GroupOutlinedIcon />,
-    path: "/users",
+    path: "/user",
   },
   {
     title: "Products",

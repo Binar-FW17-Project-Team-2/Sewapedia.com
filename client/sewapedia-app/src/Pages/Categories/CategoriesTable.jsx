@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useState, useEffect } from "react";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -20,6 +21,20 @@ const rows = [
 ];
 
 export default function CategoriesTable() {
+  const [categories, setCategory] = useState([]);
+
+  useEffect(() => {
+    // untuk url BE tinggal replace ke http://localhost:4000/api/v1/category
+    // dibawah cuma untuk contoh fetch
+    const url = "https://jsonplaceholder.typicode.com/users";
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCategory(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
