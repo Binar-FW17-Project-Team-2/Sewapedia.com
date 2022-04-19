@@ -8,6 +8,7 @@ import Users from './Pages/Users/Users';
 import Transactions from './Pages/Transactions/Transactions';
 import Categories from './Pages/Categories/Categories';
 import DashboardMenu from './Component/AdminDashboard/DashboardMenu';
+import AddProduct from './Pages/Products/AddProduct';
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
       <Route path='/user' element={<Users />} />
       <Route path='/about' element={<About />} />
       <Route path='/product' element={<Product />} />
+      <Route path='/addproduct' element={<AddProduct />} />
       <Route path='/transactions' element={<Transactions />} />
       <Route path='/categories' element={<Categories />} />
     </Routes>
