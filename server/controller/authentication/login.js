@@ -13,16 +13,20 @@ module.exports = async (req, res, next) => {
         attributes: ["firstName", "lastName"],
       },
     });
-    if (!user) throw [0, {email: 'invalid email'}];
+    if (!user) throw [0, { email: "invalid email" }];
     const { password, ...payload } = user.dataValues;
     const auth = await bcrypt.compare(req.body.password, password);
     if (!auth) throw [0, { password: "invalid password" }];
     const token = createToken(payload);
-    res.cookie("token", token, {
-      maxAge: maxAge * 1000,
-      httpOnly: true,
-    });
-    res.status(200).json({ status: 200, payload });
+    payload.token = token;
+    res
+      .cookie("token", token, {
+        maxAge: maxAge * 1000,
+        httpOnly: true,
+      })
+      .set("Access-Control-Allow-Origin", "http://localhost:3000")
+      .status(200)
+      .json([1, payload]);
   } catch (error) {
     if (!error[0]) res.status(400).json(error);
     else res.status(500).json({ message: "Internal server ERROR" });

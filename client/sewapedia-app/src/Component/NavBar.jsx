@@ -185,7 +185,7 @@ export default function PrimarySearchAppBar() {
             >
               Category
             </Button>
-            <Tab label="Contact & About Us" />
+            <Tab label="Contact & About Us"  href="/about"/>
           </Tabs>
 
           <Box sx={{ flexGrow: 1 }} />
