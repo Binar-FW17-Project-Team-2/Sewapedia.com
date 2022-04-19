@@ -11,19 +11,6 @@ export default function Home() {
         <img src={logo} alt="Logo" />
 
         <div id="container">
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-          <h1>CONTENT</h1>
-
           <div id="footer">
             This is a footer. This stays at the bottom of the page.
           </div>

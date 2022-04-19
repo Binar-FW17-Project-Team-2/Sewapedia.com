@@ -1,27 +1,32 @@
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
 import { Container } from "@mui/material";
 import { Toolbar } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import React from "react";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 import UserList from "./UserList";
 
 function Users() {
   return (
-    <div>
-      <div>
-        <DashboardLayout />
-      </div>
-      <div>
-        <Box component="main" sx={{ display: "flex", flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Container>
-            <UserList />
-          </Container>
-        </Box>
-      </div>
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <DashboardLayout />
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
+        <Toolbar />
+        <Container sx={{ mt: 4, mb: 4 }}>
+          <UserList />
+        </Container>
+      </Box>
+    </Box>
   );
 }
 
