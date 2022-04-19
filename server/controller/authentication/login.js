@@ -18,10 +18,13 @@ module.exports = async (req, res, next) => {
     const auth = await bcrypt.compare(req.body.password, password);
     if(!auth) throw [0, {password: 'invalid password'}];
     const token = createToken(payload);
-    res.cookie('token', token, {
+    payload.token = token;
+    res
+    .cookie('token', token, {
       maxAge: maxAge * 1000, httpOnly: true
     })
-    res.status(200).json([1, payload])
+    .set('Access-Control-Allow-Origin', 'http://localhost:3000')
+    .status(200).json([1, payload])
   } catch (error) {
     if (!error[0]) res.status(400).json(error);
     else res.status(500).json({message: 'Internal server ERROR'});
