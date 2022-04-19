@@ -2,12 +2,13 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link as LinkMaterial } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -30,13 +31,44 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const payload = {
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    };
+
+    fetch("http://localhost:4000/api/v1/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data, "ini data");
+        console.log(data.message);
+
+        if (data) {
+          localStorage.setItem("access_token", data[1].token);
+          localStorage.setItem("role", data[1].role);
+          localStorage.setItem("userId", data[1].id);
+        }
+
+        if (data[0] == 1) {
+          if (data[1].role === "admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -114,13 +146,17 @@ export default function LoginPage() {
 
               <Grid container>
                 <Grid item xs>
-                  <Link to="/forgotpassword" variant="body2">
-                    Forgot password?
+                  <Link to="/forgot-password">
+                    <LinkMaterial variant="body2">
+                      Forgot password?
+                    </LinkMaterial>
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link to="/signup">
+                    <LinkMaterial variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </LinkMaterial>
                   </Link>
                 </Grid>
               </Grid>
@@ -142,4 +178,3 @@ export default function LoginPage() {
     </ThemeProvider>
   );
 }
-

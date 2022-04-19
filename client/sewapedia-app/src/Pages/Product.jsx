@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../Component/NavBar";
-import Footer from "../Component/footer";
+import Footer from "../Component/Footer";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";

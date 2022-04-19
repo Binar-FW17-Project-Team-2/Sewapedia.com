@@ -1,13 +1,12 @@
 import React from "react";
 import FAQ from "../Component/FAQ";
 import NavBar from "../Component/NavBar";
-import Footer from '../Component/footer';
+import Footer from "../Component/Footer";
 
 function About() {
   return (
-    
     <div>
-      <NavBar/>
+      <NavBar />
       <div>
         <h1 align="center">Memiliki tak harus membeli</h1>
         <br />
@@ -25,7 +24,6 @@ function About() {
       <FAQ />
       <Footer />
     </div>
-    
   );
 }
 
