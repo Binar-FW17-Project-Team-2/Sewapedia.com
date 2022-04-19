@@ -11,29 +11,36 @@ export default function DashboardMenu() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <div>
-        <DashboardLayout />
-      </div>
-      <div>
-        <Box component="main" sx={{ display: "flex", flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Container>
-            <ButtonGroup
-              variant="contained"
-              aria-label="outlined primary button group"
-            >
-              <Button>Dashboard</Button>
-              <Button onClick={() => navigate("/user")}>Users</Button>
-              <Button onClick={() => navigate("/products")}>Products</Button>
-              <Button onClick={() => navigate("/transactions")}>
-                Transactions
-              </Button>
-              <Button onClick={() => navigate("/categories")}>Category</Button>
-            </ButtonGroup>
-          </Container>
-        </Box>
-      </div>
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <DashboardLayout />
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
+        <Toolbar />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button>Dashboard</Button>
+            <Button onClick={() => navigate("/user")}>Users</Button>
+            <Button onClick={() => navigate("/products")}>Products</Button>
+            <Button onClick={() => navigate("/transactions")}>
+              Transactions
+            </Button>
+            <Button onClick={() => navigate("/categories")}>Category</Button>
+          </ButtonGroup>
+        </Container>
+      </Box>
+    </Box>
   );
 }

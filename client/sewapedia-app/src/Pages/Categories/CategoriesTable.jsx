@@ -26,7 +26,7 @@ export default function CategoriesTable() {
   useEffect(() => {
     // untuk url BE tinggal replace ke http://localhost:4000/api/v1/category
     // dibawah cuma untuk contoh fetch
-    const url = "https://jsonplaceholder.typicode.com/users";
+    const url = "http://localhost:4000/api/v1/category";
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -40,11 +40,10 @@ export default function CategoriesTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableCell align="left">Number</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="right">Detail</TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -53,13 +52,11 @@ export default function CategoriesTable() {
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell  align="left">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell >{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>

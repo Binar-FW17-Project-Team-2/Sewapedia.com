@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 
-function Transactions() {
+function Products() {
   return (
     <Box sx={{ display: "flex" }}>
       <DashboardLayout />
@@ -23,12 +23,12 @@ function Transactions() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          {/* insert transactions here */}
-          <Typography>ini transaction</Typography>
+          {/* insert products here */}
+          <Typography>ini products</Typography>
         </Container>
       </Box>
     </Box>
   );
 }
 
-export default Transactions;
+export default Products;

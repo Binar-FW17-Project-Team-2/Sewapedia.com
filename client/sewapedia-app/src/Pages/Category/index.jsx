@@ -1,11 +1,11 @@
-import { Container } from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 import { Toolbar } from "@mui/material";
-import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import React from "react";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
+import Orders from "../../Component/Dashboard/Category/Orders";
 
-function Transactions() {
+function Category() {
   return (
     <Box sx={{ display: "flex" }}>
       <DashboardLayout />
@@ -23,12 +23,19 @@ function Transactions() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          {/* insert transactions here */}
-          <Typography>ini transaction</Typography>
+          <Grid container spacing={3}>
+            {/* Chart */}
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Orders />
+              </Paper>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </Box>
   );
 }
 
-export default Transactions;
+export default Category;
