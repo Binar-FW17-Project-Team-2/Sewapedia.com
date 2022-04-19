@@ -27,9 +27,10 @@ export default function CategoriesTable() {
     // untuk url BE tinggal replace ke http://localhost:4000/api/v1/category
     // dibawah cuma untuk contoh fetch
     const url = "http://localhost:4000/api/v1/category";
-    fetch(url)
+    fetch(url, { credentials: "include" })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setCategory(data);
       })
       .catch((err) => console.log(err));
@@ -40,7 +41,7 @@ export default function CategoriesTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell align="left">Number</TableCell>
+            <TableCell align="left">Number</TableCell>
             <TableCell align="left">Name</TableCell>
             <TableCell align="right">Detail</TableCell>
             <TableCell align="right">Action</TableCell>
@@ -52,10 +53,8 @@ export default function CategoriesTable() {
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell  align="left">
-                {row.name}
-              </TableCell>
-              <TableCell >{row.calories}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell>{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
             </TableRow>
           ))}

@@ -23,7 +23,6 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/product" element={<Product />} />
       <Route path="/about" element={<About />} />
-      <Route path="/categories" element={<Category />} />
       <Route path="/category/add" element={<AddCategory />} />
       <Route path="/about" element={<About />} />
       <Route path="/faq" element={<FAQ />} />
@@ -32,6 +31,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
       {/* admin dashboard */}
+      <Route path="/categories" element={<Category />} />
       <Route path="/dashboard" element={<DashboardMenu />} />
       <Route path="/transactions" element={<Transactions />} />
       <Route path="/user" element={<Users />} />

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,8 +11,8 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 // Generate Order Data
 
 export default function Orders() {
@@ -20,7 +20,7 @@ export default function Orders() {
   const [categories, setCategory] = useState([]);
 
   function fetchCategories() {
-    fetch("http://localhost:4000/api/v1/category")
+    fetch("http://localhost:4000/api/v1/category", { credentials: "include" })
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
@@ -45,7 +45,11 @@ export default function Orders() {
         }}
       >
         <Title>Category</Title>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => navigate(`/category/add`)}>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => navigate(`/category/add`)}
+        >
           Category
         </Button>
       </Box>
@@ -59,29 +63,30 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <TableRow key={category.name}>
               <TableCell>{category.name}</TableCell>
               <TableCell>{category.details}</TableCell>
-              <TableCell> 
+              <TableCell>
                 <Button
-                startIcon={<EditIcon />}
-              size='small'
-              color='warning'
-              variant="contained"
-              onClick={() => navigate(`/category/${category.name}`)}
-            >
-              Edit
-            </Button>
-            <Button
-            startIcon={<DeleteIcon />}
-              size='small'
-              color='error'
-              variant="contained"
-              onClick={() => navigate(`/category/${category.name}`)}
-            >
-              Delete
-            </Button></TableCell>
+                  startIcon={<EditIcon />}
+                  size="small"
+                  color="warning"
+                  variant="contained"
+                  onClick={() => navigate(`/category/${category.name}`)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  startIcon={<DeleteIcon />}
+                  size="small"
+                  color="error"
+                  variant="contained"
+                  onClick={() => navigate(`/category/${category.name}`)}
+                >
+                  Delete
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
