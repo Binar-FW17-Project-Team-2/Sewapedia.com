@@ -4,11 +4,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import { Tooltip } from "@mui/material";
 
-export function TableEditUser() {
+export function TableEditUser({ id, handleEdit }) {
   return (
     <div>
       <Tooltip placement="top" title="Edit">
-        <IconButton color="primary" aria-label="delete" component="span">
+        <IconButton
+          onClick={() => handleEdit(id)}
+          color="primary"
+          aria-label="delete"
+          component="span"
+        >
           <EditSharpIcon />
         </IconButton>
       </Tooltip>
@@ -16,11 +21,16 @@ export function TableEditUser() {
   );
 }
 
-export function TableDeleteUser() {
+export function TableDeleteUser({ id, handleDelete }) {
   return (
     <div>
       <Tooltip placement="top" title="Delete">
-        <IconButton color="primary" aria-label="delete" component="span">
+        <IconButton
+          onClick={() => handleDelete(id)}
+          color="primary"
+          aria-label="delete"
+          component="span"
+        >
           <DeleteIcon />
         </IconButton>
       </Tooltip>

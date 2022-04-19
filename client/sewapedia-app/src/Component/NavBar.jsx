@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(grey[400]),
@@ -30,6 +31,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const [removeCookie] = useCookies(["token"]);
   const [user, setUser] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -67,11 +69,13 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // clear cookie
+    // await removeCookie("token", { path: "/" });
     // clear token, userId, and role from local storage
-    localStorage.clear();
+    await localStorage.clear();
     // setUser to false
-    setUser(false);
+    await setUser(false);
   };
 
   const menuId = "primary-search-account-menu";

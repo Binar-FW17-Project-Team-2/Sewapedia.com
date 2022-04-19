@@ -5,16 +5,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CookiesProvider } from "react-cookie";
 
 const mdTheme = createTheme();
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={mdTheme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <CookiesProvider>
+      <ThemeProvider theme={mdTheme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

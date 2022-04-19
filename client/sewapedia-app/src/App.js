@@ -10,12 +10,12 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import Users from "./Pages/Users/Users";
 import Transactions from "./Pages/Transactions/Transactions";
-import Categories from "./Pages/Categories/Categories";
 import DashboardMenu from "./Component/AdminDashboard/DashboardMenu";
 import Product from "./Pages/Product";
 import Category from "./Pages/Category/";
 import AddCategory from "./Pages/Category/AddCategory";
 import Products from "./Pages/Products/Products";
+import UserEdit from "./Pages/Users/UserEdit";
 
 export default function App() {
   return (
@@ -35,6 +35,7 @@ export default function App() {
       <Route path="/dashboard" element={<DashboardMenu />} />
       <Route path="/transactions" element={<Transactions />} />
       <Route path="/user" element={<Users />} />
+      <Route path="/user/edit/:id" element={<UserEdit />} />
       <Route path="/products" element={<Products />} />
       {/* pls implement not found */}
     </Routes>
