@@ -18,6 +18,7 @@ module.exports = async (req, res, next) => {
     const auth = await bcrypt.compare(req.body.password, password);
     if(!auth) throw [0, {password: 'invalid password'}];
     const token = createToken(payload);
+    payload.token = token;
     res
     .cookie('token', token, {
       maxAge: maxAge * 1000, httpOnly: true
