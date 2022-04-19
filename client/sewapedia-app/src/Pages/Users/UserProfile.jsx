@@ -16,7 +16,7 @@ export default function UserProfile() {
         const result = await fetch(`http://localhost:4000/user/${params.id}`, {
           headers: { access_token: localStorage.getItem("access_token") },
         });
-        const body = await result.json();
+        const body = await result.json([]);
         setData(body);
       } catch (err) {
         // error handling code
@@ -35,7 +35,7 @@ export default function UserProfile() {
           component="img"
           height="140"
           image={data?.image_url}
-          alt={data.name}
+          alt={data.id}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

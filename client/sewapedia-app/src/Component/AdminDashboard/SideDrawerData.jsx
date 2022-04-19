@@ -19,7 +19,7 @@ const SideDrawerData = [
   {
     title: "Products",
     icon: <Inventory2OutlinedIcon />,
-    path: "/products",
+    path: "/product",
   },
   {
     title: "Transactions",
