@@ -43,6 +43,7 @@ export default function LoginPage() {
     fetch("http://localhost:4000/api/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(payload),
     })
       .then((response) => {
