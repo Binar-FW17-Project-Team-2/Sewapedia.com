@@ -51,7 +51,6 @@ export default function LoginPage() {
       })
       .then((data) => {
         console.log(data, "ini data");
-        console.log(data.message);
 
         if (data) {
           localStorage.setItem("access_token", data[1].token);

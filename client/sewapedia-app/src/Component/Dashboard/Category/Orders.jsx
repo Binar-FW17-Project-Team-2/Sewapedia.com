@@ -13,11 +13,23 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { TableDeleteCategory, TableEditCategory } from "../../../Pages/Category/CategoryTableButton";
 // Generate Order Data
 
 export default function Orders() {
   const navigate = useNavigate();
   const [categories, setCategory] = useState([]);
+
+  const handleEdit = (name) => {
+    navigate("/category/edit/" + name);
+  };
+
+  const handleDelete = (name) => {
+    fetch("http://localhost:5000/api/users/" + name, {
+      method: "DELETE",
+      credentials: "include",
+    });
+  };
 
   function fetchCategories() {
     fetch("http://localhost:4000/api/v1/category", { credentials: "include" })
@@ -68,24 +80,8 @@ export default function Orders() {
               <TableCell>{category.name}</TableCell>
               <TableCell>{category.details}</TableCell>
               <TableCell>
-                <Button
-                  startIcon={<EditIcon />}
-                  size="small"
-                  color="warning"
-                  variant="contained"
-                  onClick={() => navigate(`/category/${category.name}`)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  startIcon={<DeleteIcon />}
-                  size="small"
-                  color="error"
-                  variant="contained"
-                  onClick={() => navigate(`/category/${category.name}`)}
-                >
-                  Delete
-                </Button>
+              <TableEditCategory id={category.name} handleEdit={handleEdit} />
+                <TableDeleteCategory id={category.name} handleDelete={handleDelete} />
               </TableCell>
             </TableRow>
           ))}
