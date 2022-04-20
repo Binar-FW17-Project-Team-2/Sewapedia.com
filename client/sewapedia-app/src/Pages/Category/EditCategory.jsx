@@ -18,7 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../Component/Dashboard/ListItems";
-import FormAddCategory from "../../Component/Dashboard/Category/FormAddCategory";
+import FormEditCategory from "../../Component/Dashboard/Category/FormEditCategory";
+
 
 function Copyright(props) {
   return (
@@ -168,7 +169,7 @@ function DashboardContent() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <FormEditcategory />
+                  <FormEditCategory />
                 </Paper>
               </Grid>
             </Grid>
@@ -180,6 +181,6 @@ function DashboardContent() {
   );
 }
 
-export default function AddCategory() {
+export default function EditCategory() {
   return <DashboardContent />;
 }

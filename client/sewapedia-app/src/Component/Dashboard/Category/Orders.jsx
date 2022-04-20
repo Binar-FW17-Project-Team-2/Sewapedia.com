@@ -25,7 +25,7 @@ export default function Orders() {
   };
 
   const handleDelete = (name) => {
-    fetch("http://localhost:5000/api/users/" + name, {
+    fetch("http://localhost:4000/api/v1/category/" + name, {
       method: "DELETE",
       credentials: "include",
     });
