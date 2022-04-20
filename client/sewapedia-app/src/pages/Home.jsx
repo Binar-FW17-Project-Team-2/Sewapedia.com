@@ -1,9 +1,7 @@
-
-
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import logo from "../logo/header-image.jpeg";
+import NavBar from "../Component/NavBar";
+import Footer from "../Component/footer";
+import logo from "../image/header-image.jpeg";
 
 export default function Home() {
   return (

@@ -53,8 +53,12 @@ export default function LoginPage() {
         console.log(data, "ini data");
         console.log(data.message);
         localStorage.setItem("access_token", data.access_token);
-        if (data.status == 200) {
+        if (data.payload.role == 'user') {
+          console.log(data[1]);
           navigate("/");
+        }else if(data.payload.role == 'admin'){
+          console.log(data[1]);
+          navigate("/dashboard");
         }
       })
       .catch((err) => {
