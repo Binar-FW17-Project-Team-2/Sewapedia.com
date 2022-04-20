@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import About from "./Pages/About";
 import Home from "./Pages/Home";
 import LoginPage from "./Pages/Auth/LoginPage";
@@ -18,6 +18,7 @@ import Products from "./Pages/Products/Products";
 import UserEdit from "./Pages/Users/UserEdit";
 import AddProduct from "./Pages/Products/AddProduct";
 import SewaProduct from "./Pages/SewaProduct";
+import NotFound from "./Pages/NotFound";
 
 export default function App() {
   return (
@@ -42,6 +43,8 @@ export default function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/products/add" element={<AddProduct />} />
       {/* pls implement not found */}
+      <Route path="404" element={<NotFound />} />
+      <Route path="/*" element={<Navigate to='/404'/>} />
     </Routes>
   );
 }
