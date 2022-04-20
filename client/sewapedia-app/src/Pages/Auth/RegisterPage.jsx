@@ -3,14 +3,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+import { Link as LinkMaterial } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -21,9 +21,9 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <LinkMaterial color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{" "}
+      </LinkMaterial>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -187,13 +187,15 @@ export default function SignInSide() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <LinkMaterial href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </LinkMaterial>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/signin">
+                  <LinkMaterial variant="body2">
+                    {"Already have an account? Sign In!"}
+                  </LinkMaterial>
                 </Link>
               </Grid>
             </Grid>

@@ -27,7 +27,9 @@ module.exports = async (req, res, next) => {
       })
       .set("Access-Control-Allow-Origin", "http://localhost:3000")
       .status(200)
-      .json({status:200, payload});
+
+      .json([1, payload]);
+
   } catch (error) {
     if (!error[0]) res.status(400).json(error);
     else res.status(500).json({ message: "Internal server ERROR" });

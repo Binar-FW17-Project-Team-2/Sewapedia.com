@@ -2,14 +2,13 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Link from "@mui/material/Link";
-import { useNavigate } from "react-router-dom";
+import { Link as LinkMaterial } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -52,13 +51,20 @@ export default function LoginPage() {
       .then((data) => {
         console.log(data, "ini data");
         console.log(data.message);
-        localStorage.setItem("access_token", data.access_token);
-        if (data.payload.role == 'user') {
-          console.log(data[1]);
-          navigate("/");
-        }else if(data.payload.role == 'admin'){
-          console.log(data[1]);
-          navigate("/dashboard");
+
+
+        if (data) {
+          localStorage.setItem("access_token", data[1].token);
+          localStorage.setItem("role", data[1].role);
+          localStorage.setItem("userId", data[1].id);
+        }
+
+        if (data[0] == 1) {
+          if (data[1].role === "admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
         }
       })
       .catch((err) => {
@@ -141,13 +147,17 @@ export default function LoginPage() {
 
               <Grid container>
                 <Grid item xs>
-                  <Link href="/forgotpassword" variant="body2">
-                    Forgot password?
+                  <Link to="/forgot-password">
+                    <LinkMaterial variant="body2">
+                      Forgot password?
+                    </LinkMaterial>
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link to="/signup">
+                    <LinkMaterial variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </LinkMaterial>
                   </Link>
                 </Grid>
               </Grid>

@@ -19,6 +19,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { grey } from "@mui/material/colors";
+import { Link } from "react-router-dom";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(grey[400]),
@@ -29,12 +30,20 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const [user, setUser] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setUser(true);
+    }
+  }, [user]);
 
   const [tabValue, setTabValue] = React.useState("product");
 
@@ -56,6 +65,13 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    // clear token, userId, and role from local storage
+    localStorage.clear();
+    // setUser to false
+    setUser(false);
   };
 
   const menuId = "primary-search-account-menu";
@@ -90,29 +106,6 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-
-  // const category = 'primary-search-account-menu';
-  // const renderCategory = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{
-  //       vertical: 'top',
-  //       horizontal: 'right',
-  //     }}
-  //     id={category}
-  //     keepMounted
-  //     transformOrigin={{
-  //       vertical: 'top',
-  //       horizontal: 'right',
-  //     }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem id="category" onClick={handleMenuClose}>P</MenuItem>
-  //     <MenuItem id="category" onClick={handleMenuClose}>Transaction</MenuItem>
-  //   </Menu>
-
-  // );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -168,7 +161,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            a LOGO
+            LOGO
           </Typography>
 
           <Tabs sx={{ marginLeft: "150px", color: "black" }} value={tabValue}>
@@ -185,7 +178,7 @@ export default function PrimarySearchAppBar() {
             >
               Category
             </Button>
-            <Tab label="Contact & About Us"  href="/about"/>
+            <Tab label="Contact & About Us" href="/about" />
           </Tabs>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -197,8 +190,19 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             {/* button login&register */}
-            <ColorButton variant="contained">Login</ColorButton>
-            <ColorButton variant="contained">Register</ColorButton>
+            {user ? (
+              <ColorButton onClick={() => handleLogout()}>Logout</ColorButton>
+            ) : (
+              <>
+                <Link to="/signin">
+                  <ColorButton variant="contained">Login</ColorButton>
+                </Link>
+                <Link to="/signup">
+                  <ColorButton variant="contained">Register</ColorButton>
+                </Link>
+              </>
+            )}
+
             <IconButton
               size="large"
               edge="end"
