@@ -16,12 +16,15 @@ import Category from "./Pages/Category/";
 import AddCategory from "./Pages/Category/AddCategory";
 import Products from "./Pages/Products/Products";
 import UserEdit from "./Pages/Users/UserEdit";
+import AddProduct from "./Pages/Products/AddProduct";
+import SewaProduct from "./Pages/SewaProduct";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/product" element={<Product />} />
+      <Route path="/product/:productId" element={<SewaProduct />} />
       <Route path="/about" element={<About />} />
       <Route path="/category/add" element={<AddCategory />} />
       <Route path="/about" element={<About />} />
@@ -37,6 +40,7 @@ export default function App() {
       <Route path="/user" element={<Users />} />
       <Route path="/user/edit/:id" element={<UserEdit />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/products/add" element={<AddProduct />} />
       {/* pls implement not found */}
     </Routes>
   );
