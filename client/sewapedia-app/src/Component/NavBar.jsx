@@ -76,6 +76,10 @@ export default function PrimarySearchAppBar() {
     await localStorage.clear();
     // setUser to false
     await setUser(false);
+    // remove cookie 
+    await fetch(`http://localhost:4000/api/v1/logout`, {
+      credentials: 'include'
+    })
   };
 
   const menuId = "primary-search-account-menu";
