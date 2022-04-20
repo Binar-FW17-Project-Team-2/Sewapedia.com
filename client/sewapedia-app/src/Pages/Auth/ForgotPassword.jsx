@@ -1,14 +1,15 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik";
+import { validationForgotPw } from "../../utils/validation";
+import { TextInput } from "../../Component/CustomInput";
+import { Alert } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -28,41 +29,16 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
 
 export default function ForgotPassword() {
-  const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [sendEmail, setSendEmail] = useState(false)
 
-    const payload = {
-      email: event.currentTarget.email.value,
-    };
-
-    fetch("http://localhost:4000/api/v1/forgotpw", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data, "ini data");
-        console.log(data.message);
-        localStorage.setItem("access_token", data.access_token);
-        if (data.status == 200) {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  function unsetError() {
+    setErrorEmail(false)
+  }
 
   return (
-    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -99,38 +75,69 @@ export default function ForgotPassword() {
             >
               Forgot Password
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+            {
+              sendEmail 
+                ? <Alert 
+                    severity="success" 
+                    sx={{width: '100%'}}
+                    onClose={() => {setSendEmail(false)}}
+                  >
+                    {sendEmail}
+                  </Alert>
+                : null
+            }
+            <Formik
+              initialValues={{
+                email: ''
+              }}
+              validationSchema={validationForgotPw}
+              onSubmit={async (values) => {
+                const res = await fetch(`http://localhost:4000/api/v1/forgotpw`, {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    email: values.email
+                  }),
+                  headers: {'Content-Type': 'application/json'}
+                })
+                const data = await res.json();
+                if (res.status === 400) {
+                  setErrorEmail({error: true, helperText: data[1].message})
+                }
+                if (res.status === 200) {
+                  setSendEmail(data[1].message)
+                }
+              }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                sx={{ mt: 3, mb: 2 }}
-               
+              <Box
+                component={Form}
+                sx={{ mt: 1 }}
               >
-                Forgot Password
-              </Button>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
+                <TextInput
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  {...(errorEmail) ? errorEmail : null}
+                  onClick={unsetError}
+                />
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 3, mb: 2 }}
+                
+                >
+                  Forgot Password
+                </Button>
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
+            </Formik>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 }

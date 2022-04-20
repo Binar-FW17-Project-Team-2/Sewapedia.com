@@ -14,6 +14,6 @@ module.exports = async (req, res) => {
     await transporter.sendMail(forgotPw(user.email, token, expired));
     res.status(200).json([1, {message: 'e-mail has been sent'}]);
   } catch (error) {
-    res.status(500).json({message: 'Internal server ERROR'});
+    res.status(500).json({message: 'Internal Server ERROR'});
   }
 }

@@ -33,7 +33,7 @@ export default function App() {
       <Route path="/signIn" element={<LoginPage />} />
       <Route path="/signUp" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/resetpassword" element={<ResetPassword />} />
+      <Route path="/resetpassword/:token" element={<ResetPassword />} />
       {/* admin dashboard */}
       <Route path="/categories" element={<Category />} />
       <Route path="/dashboard" element={<DashboardMenu />} />

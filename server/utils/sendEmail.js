@@ -40,6 +40,8 @@ const forgotPw = (to, link, expired ) => {
       <h3>Link reset password</h3>
       <h6>expired in ${expired} second</h6>
       <a href='http://localhost:3000/resetpassword/${link}'>reset password</a>
+      <p>atau</p>
+      <a href='http://localhost:3000/resetpassword/${link}'>http://localhost:3000/resetpassword/${link}</a>
     `
   }
 }
