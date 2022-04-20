@@ -6,15 +6,18 @@ export const validationAddProduct = Yup.object({
   details: Yup.string()
     .required('wajib di isi'),
   price: Yup.number()
+    .min(1, 'price min 1')
     .required('wajib di isi'),
   stock: Yup.number()
+    .min(1, 'stock minimal 1')
     .required('wajib di isi'),
   category: Yup.string()
     .required('wajib di isi'),
 })
 
 export const validationSewa = Yup.object({
-  lamaSewa: Yup.string()
+  lamaSewa: Yup.number()
+    .min(1, 'min 1 hari')
     .required('wajib di isi')
 })
 
