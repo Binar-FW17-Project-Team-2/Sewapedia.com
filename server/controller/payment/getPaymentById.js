@@ -1,9 +1,18 @@
-const {Payment} = require('../../models');
+const {Payment, User, Product, Biodata} = require('../../models');
 
 module.exports = async (req, res) => {
   try {
     const payment = await Payment.findOne({
-      where: {id: req.params.id}
+      where: {id: req.params.id},
+      include: [{
+        model: User,
+        include: {
+          model: Biodata,
+          as: 'Biodata',
+        }
+      }, {
+        model: Product
+      }]
     })
     payment
       ? res.status(200).json([1, payment])

@@ -1,17 +1,18 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Form, Formik } from 'formik';
+import { TextInput } from '../../Component/CustomInput';
+import { validationResetPw } from '../../utils/validation';
+import { useParams } from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -26,20 +27,16 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
-
 export default function ResetPassword() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const { token } = useParams()
+  const [errorPw, setErrorPw] = useState(false);
+  const [status, setStatus] = useState(false)
+
+  function unsetError() {
+    setErrorPw(false)
+  }
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -56,42 +53,80 @@ export default function ResetPassword() {
           <Typography component="h1" variant="h5">
             Reset Password
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="password"
-                  label="New password"
-                  name="password"
-                />
+          {
+            status 
+              ? <Alert 
+                  severity={status.serverity} 
+                  sx={{width: '100%', mt:2}}
+                  onClose={() => {setStatus(false)}}
+                >
+                  {status.message}
+                </Alert>
+              : null
+          }
+          <Formik
+            initialValues={{
+              password: '',
+              confirmPassword: ''
+            }}
+            validationSchema={validationResetPw}
+            onSubmit={async (values) => {
+              if (values.password !== values.confirmPassword) {
+                return setErrorPw({error: true, helperText: 'password tidak sama'})
+              }
+              const res = await fetch('http://localhost:4000/api/v1/resetpw', {
+                method: 'POST',
+                body: JSON.stringify({
+                  password: values.confirmPassword,
+                  token,
+                }),
+                headers: {'Content-Type': 'application/json'}
+              })
+              if (res.status === 400) {
+                setStatus({serverity: 'error', message:'gagal, link rusak'})
+              }
+              if (res.status === 200) {
+                setStatus({serverity: 'success', message:'berhasil reset pw'})
+              }
+            }}
+          >
+            <Box component={Form} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextInput
+                    fullWidth
+                    id="password"
+                    label="New password"
+                    name="password"
+                    type="password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextInput
+                    fullWidth
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    id="confirmPassword"
+                    {...(errorPw) ? errorPw : null}
+                    onClick={unsetError}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="conf_password"
-                  label="Confirm Password"
-                  type="password"
-                  id="conf-password"
-                />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </Button>
+              <Grid container justifyContent="flex-end">
               </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Submit
-            </Button>
-            <Grid container justifyContent="flex-end">
-            </Grid>
-          </Box>
+            </Box>
+          </Formik>
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
   );
 }

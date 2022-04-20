@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import About from "./Pages/About";
 import Home from "./Pages/Home";
 import LoginPage from "./Pages/Auth/LoginPage";
@@ -16,12 +16,16 @@ import Category from "./Pages/Category/";
 import AddCategory from "./Pages/Category/AddCategory";
 import Products from "./Pages/Products/Products";
 import UserEdit from "./Pages/Users/UserEdit";
+import AddProduct from "./Pages/Products/AddProduct";
+import SewaProduct from "./Pages/SewaProduct";
+import NotFound from "./Pages/NotFound";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/product" element={<Product />} />
+      <Route path="/product/:productId" element={<SewaProduct />} />
       <Route path="/about" element={<About />} />
       <Route path="/category/add" element={<AddCategory />} />
       <Route path="/about" element={<About />} />
@@ -29,7 +33,7 @@ export default function App() {
       <Route path="/signIn" element={<LoginPage />} />
       <Route path="/signUp" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/resetpassword" element={<ResetPassword />} />
+      <Route path="/resetpassword/:token" element={<ResetPassword />} />
       {/* admin dashboard */}
       <Route path="/categories" element={<Category />} />
       <Route path="/dashboard" element={<DashboardMenu />} />
@@ -37,7 +41,10 @@ export default function App() {
       <Route path="/user" element={<Users />} />
       <Route path="/user/edit/:id" element={<UserEdit />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/products/add" element={<AddProduct />} />
       {/* pls implement not found */}
+      <Route path="404" element={<NotFound />} />
+      <Route path="/*" element={<Navigate to='/404'/>} />
     </Routes>
   );
 }
