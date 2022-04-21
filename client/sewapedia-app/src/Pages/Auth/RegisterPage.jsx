@@ -1,16 +1,17 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import { Link as LinkMaterial } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { validationSignup } from '../../utils/validation';
+import { TextInput } from '../../Component/CustomInput'
 
 function Copyright(props) {
   return (
@@ -31,36 +32,12 @@ function Copyright(props) {
 }
 
 export default function SignInSide() {
+  const [errorEmail, setErrorEmail] = useState(false);
   const navigate = useNavigate();
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      address: "",
-    },
-    onSubmit: async (values) => {
-      const response = await fetch("http://localhost:4000/api/v1/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          address: values.address,
-        }),
-      });
-      const data = await response.json();
-      // if u want to implement any toaster notification use if (data.status !== 201) toast(something)
-      if (data.status === 201) {
-        navigate("/signin");
-      }
-    },
-  });
+
+  function unsetError() {
+    setErrorEmail(false)
+  }
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
@@ -96,111 +73,110 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={formik.handleSubmit}
-            sx={{ mt: 1 }}
+          <Formik
+            initialValues={{
+              firstName: '',
+              email: '',
+              password: '',
+              lastName: '',
+              address: ''
+            }}
+            validationSchema={validationSignup}
+            onSubmit={async (values) => {
+              const res = await fetch(`http://localhost:4000/api/v1/signup`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  email: values.email,
+                  password: values.password,
+                  firstName: values.firstName,
+                  lastName: values.lastName,
+                  address: values.address
+                }),
+                credentials: 'include',
+                headers: {'Content-Type': 'application/json'}
+              })
+              const data = await res.json()
+              if (res.status === 201) {
+                navigate('/signin')
+              } else if (res.status === 400) {
+                setErrorEmail({error: true, helperText: data.message})
+              }
+            }}
           >
+            <Box
+              component={Form}
+              sx={{ mt: 1 }}
+            > 
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
+                <TextInput 
+                  margin='normal'
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  name='firstName'
+                  label='First Name'
+                  id='firstName'
                   autoFocus
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
+                <TextInput
+                  margin='normal'
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
+                  name='lastName'
+                  label='Last Name'
+                  id='lastName'
                 />
               </Grid>
             </Grid>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              value={formik.values.username}
-              onChange={formik.handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              autoFocus
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="address"
-              label="Address"
-              id="address"
-              onChange={formik.handleChange}
-              value={formik.values.address}
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Register
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <LinkMaterial href="#" variant="body2">
-                  Forgot password?
-                </LinkMaterial>
-              </Grid>
-              <Grid item>
-                <Link to="/signin">
-                  <LinkMaterial variant="body2">
-                    {"Already have an account? Sign In!"}
+              <TextInput
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                {...(errorEmail) ? errorEmail : null}
+                onClick={unsetError}
+              />
+              <TextInput
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <TextInput 
+                margin='normal'
+                fullWidth
+                name='address'
+                label='Address'
+                id='address'
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Register
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <LinkMaterial component={Link} to='/forgot-password' variant="body2">
+                    Forgot password?
                   </LinkMaterial>
-                </Link>
+                </Grid>
+                <Grid item>
+                    <LinkMaterial component={Link} to='/signin' variant="body2">
+                      {"Already have an account? Sign In!"}
+                    </LinkMaterial>
+                </Grid>
               </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5 }} />
-          </Box>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Formik>
         </Box>
       </Grid>
     </Grid>
