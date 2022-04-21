@@ -19,6 +19,7 @@ import UserEdit from "./Pages/Users/UserEdit";
 import AddProduct from "./Pages/Products/AddProduct";
 import SewaProduct from "./Pages/SewaProduct";
 import NotFound from "./Pages/NotFound";
+import EditProduct from "./Pages/Products/EditProduct";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/user/edit/:id" element={<UserEdit />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/add" element={<AddProduct />} />
+      <Route path="/products/edit/:productId" element={<EditProduct />} />
       {/* pls implement not found */}
       <Route path="404" element={<NotFound />} />
       <Route path="/*" element={<Navigate to='/404'/>} />
