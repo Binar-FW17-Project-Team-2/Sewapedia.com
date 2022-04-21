@@ -13,8 +13,8 @@ module.exports = async (req, res, next) => {
         attributes: ["firstName", "lastName"],
       },
     });
-    const { password, ...payload } = user.dataValues;
     if (!user) throw [0, { email: "invalid email" }];
+    const { password, ...payload } = user.dataValues;
     const auth = await bcrypt.compare(req.body.password, password);
     if (!auth) throw [0, { password: "invalid password" }];
     const token = createToken(payload);

@@ -1,7 +1,6 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -9,6 +8,9 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link as LinkMaterial } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik";
+import { validationLogin } from '../../utils/validation';
+import { TextInput } from '../../Component/CustomInput';
 
 function Copyright(props) {
   return (
@@ -31,45 +33,14 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LoginPage() {
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPw, setErrorPw] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    const payload = {
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-    };
-
-    fetch("http://localhost:4000/api/v1/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data, "ini data");
-
-        if (data) {
-          localStorage.setItem("access_token", data[1].token);
-          localStorage.setItem("role", data[1].role);
-          localStorage.setItem("userId", data[1].id);
-        }
-
-        if (data[0] == 1) {
-          if (data[1].role === "admin") {
-            navigate("/dashboard");
-          } else {
-            navigate("/");
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  function unsetError() {
+    setErrorEmail(false)
+    setErrorPw(false)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,69 +80,95 @@ export default function LoginPage() {
             >
               Login to your account
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+            <Formik
+              initialValues={{
+              email: '',
+              password: ''
+              }}
+              validationSchema={validationLogin}
+              onSubmit={async (values) => {
+                const res = await fetch(`http://localhost:4000/api/v1/login`, {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    email: values.email,
+                    password: values.password
+                  }),
+                  credentials: 'include',
+                  headers: {'Content-Type': 'application/json'}
+                })
+                const data = await res.json()
+                if (res.status === 200) {
+                  localStorage.setItem('user', JSON.stringify(data[1]))
+                  localStorage.setItem("access_token", data[1].token);
+                  localStorage.setItem("role", data[1].role);
+                  localStorage.setItem("userId", data[1].id);
+                  data[1].role === 'admin' ? navigate('/dashboard') : navigate('/')
+                } else if (res.status === 400) {
+                  ('password' in data[1])
+                    ? setErrorPw({error:true, helperText: data[1].password})
+                    : setErrorEmail({error: true, helperText: data[1].email})
+                }
+              }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+              <Box
+                component={Form}
+                sx={{ mt: 1 }}
               >
-                Sign In
-              </Button>
+                <TextInput
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  {...(errorEmail) ? errorEmail : null}
+                  onClick={unsetError}
+                />
+                <TextInput
+                  margin="normal"
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  {...(errorPw) ? errorPw : null}
+                  onClick={unsetError}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Login
+                </Button>
 
-              <Grid container>
-                <Grid item xs>
-                  <Link to="/forgot-password">
-                    <LinkMaterial variant="body2">
-                      Forgot password?
+                <Grid container>
+                  <Grid item xs>
+                    <LinkMaterial component={Link} to="/forgot-password" variant="body2">
+                        Forgot password?
                     </LinkMaterial>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/signup">
-                    <LinkMaterial variant="body2">
-                      {"Don't have an account? Sign Up"}
+                  </Grid>
+                  <Grid item>
+                    <LinkMaterial component={Link} to="/signup" variant="body2">
+                        {"Don't have an account? Sign Up"}
                     </LinkMaterial>
-                  </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="outlined"
-                color="primary"
-                sx={{ mt: 3, mb: 2 }}
-                startIcon={<img src="/images/ic_google.svg" />}
-              >
-                Login With Google
-              </Button>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                  sx={{ mt: 3, mb: 2 }}
+                  startIcon={<img src="/images/ic_google.svg" alt="google"/>}
+                >
+                  Login With Google
+                </Button>
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
+            </Formik>
           </Box>
         </Grid>
       </Grid>
