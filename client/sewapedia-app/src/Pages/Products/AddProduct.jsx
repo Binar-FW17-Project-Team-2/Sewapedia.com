@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 import { TextInput } from "../../Component/CustomInput";
 import { validationAddProduct } from "../../utils/validation";
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from "../../config/firebase";
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -90,6 +90,17 @@ function FormAddProduct() {
     );
   };
 
+  async function deleteImage(idx) {
+    try {
+      const image = imageUrl[idx];
+      const imageRef = ref(storage, image);
+      await deleteObject(imageRef);
+      setImageUrl(prev => prev.filter((val, id) => (id !== idx)));
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   return (
     <Formik
       initialValues={{
@@ -163,11 +174,7 @@ function FormAddProduct() {
                           p:0, 
                           minWidth:0
                         }}
-                        onClick={()=> {
-                          setImageUrl(
-                            prev => prev.filter((val, id) => (id !== idx))
-                          )
-                        }}
+                        onClick={()=> { deleteImage(idx) }}
                       >
                         <CloseIcon fontSize="small"/>
                       </Button>
@@ -186,8 +193,8 @@ function FormAddProduct() {
               type='file'
               inputProps={{accept:"image/*"}}
               onChange={inputImage}
-              {...(errorInput) ? errorInput : null}
               onClick={() => {setErrorInput(false)}}
+              {...(errorInput) ? errorInput : null}
             />
             <TextInput 
               id='name'
@@ -226,9 +233,16 @@ function FormAddProduct() {
               rows={15}
               {...formik.getFieldProps('details')}
             />
-            {formik.touched.details && formik.errors.details ? (
-             <Typography variant="p" sx={{color: 'red'}}>{formik.errors.details}</Typography>
-           ) : null}
+            {
+              formik.touched.details && formik.errors.details 
+                ? <Typography 
+                    variant="p"  
+                    sx={{color: 'red'}}
+                  >
+                    {formik.errors.details}
+                  </Typography>
+                : null
+            }
             
             <Button 
               sx={{mt:1}} 
