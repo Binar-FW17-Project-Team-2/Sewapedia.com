@@ -45,6 +45,7 @@ export default function App() {
       <Route path="/user/edit/:id" element={<UserEdit />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/add" element={<AddProduct />} />
+      <Route path="/products/edit/:id" element={<AddProduct />} />
       {/* pls implement not found */}
       <Route path="404" element={<NotFound />} />
       <Route path="/*" element={<Navigate to="/404" />} />
