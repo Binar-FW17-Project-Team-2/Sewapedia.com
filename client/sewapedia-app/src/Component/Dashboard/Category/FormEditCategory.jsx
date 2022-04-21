@@ -1,16 +1,29 @@
 import * as React from "react";
-
+import { useEffect, useState } from 'react';
 import Title from "../Title";
 import { Box } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Generate Order Data
 
 
-export default function FormAddCategory() {
+export default function FormEditCategory() {
   const navigate = useNavigate();
+  const { name } = useParams();
+  const [category, setCategory] = useState([]);
+
+    function fetchCategoryByName() {
+    fetch(`http://localhost:4000/api/v1/category/${name}`)
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data)
+        setCategory(data);
+      })
+      .catch((err) => console.log(err));
+  }
+  
   const formik = useFormik({
     initialValues: {
       name: "",

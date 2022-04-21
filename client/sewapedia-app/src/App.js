@@ -20,6 +20,7 @@ import AddProduct from "./Pages/Products/AddProduct";
 import SewaProduct from "./Pages/SewaProduct";
 import NotFound from "./Pages/NotFound";
 import EditProduct from "./Pages/Products/EditProduct";
+import EditCategory from "./Pages/Category/EditCategory";
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
       <Route path="/product" element={<Product />} />
       <Route path="/product/:productId" element={<SewaProduct />} />
       <Route path="/about" element={<About />} />
-      <Route path="/category/add" element={<AddCategory />} />
+
       <Route path="/about" element={<About />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/signIn" element={<LoginPage />} />
@@ -37,6 +38,8 @@ export default function App() {
       <Route path="/resetpassword/:token" element={<ResetPassword />} />
       {/* admin dashboard */}
       <Route path="/categories" element={<Category />} />
+      <Route path="/category/add" element={<AddCategory />} />
+      <Route path="/category/edit/:name" element={<EditCategory />} />
       <Route path="/dashboard" element={<DashboardMenu />} />
       <Route path="/transactions" element={<Transactions />} />
       <Route path="/user" element={<Users />} />
@@ -46,7 +49,7 @@ export default function App() {
       <Route path="/products/edit/:productId" element={<EditProduct />} />
       {/* pls implement not found */}
       <Route path="404" element={<NotFound />} />
-      <Route path="/*" element={<Navigate to='/404'/>} />
+      <Route path="/*" element={<Navigate to="/404" />} />
     </Routes>
   );
 }

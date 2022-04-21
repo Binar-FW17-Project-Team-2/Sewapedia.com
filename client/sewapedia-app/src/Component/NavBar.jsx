@@ -21,6 +21,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Link2 from '@mui/material/Link';
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(grey[400]),
@@ -109,7 +110,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem value="3" onClick={handleMenuClose}>
         3
       </MenuItem>
-      <MenuItem value="4" onClick={handleMenuClose}>
+      <MenuItem value="4" onClick={handleMenuClose} href="/Category">
         4
       </MenuItem>
     </Menu>
@@ -166,14 +167,19 @@ export default function PrimarySearchAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
+            to="/"
+            color="grey"
+            
           >
-            LOGO
+          <Link2 href="/" underline="none" color="#424242">
+           
+              LOGO
+           </Link2>
           </Typography>
 
           <Tabs sx={{ marginLeft: "150px", color: "black" }} value={tabValue}>
-            <Tab value="product" label="Products" href="/product" />
+            <Tab label="Products" href="/product" />
             <Button
               mt="-100px"
               id="demo-customized-button"
@@ -183,6 +189,7 @@ export default function PrimarySearchAppBar() {
               disableElevation
               onClick={handleClick}
               endIcon={<KeyboardArrowDownIcon />}
+              
             >
               Category
             </Button>
