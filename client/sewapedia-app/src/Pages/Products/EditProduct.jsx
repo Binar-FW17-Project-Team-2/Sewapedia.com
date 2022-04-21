@@ -2,7 +2,7 @@ import { Box, Container, LinearProgress, MenuItem, Paper, Toolbar, Typography } 
 import { Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 import { TextInput } from "../../Component/CustomInput";
 import { validationAddProduct } from "../../utils/validation";
@@ -10,7 +10,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebas
 import { storage } from "../../config/firebase";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function AddProduct() {
+export default function EditProduct() {
   return (
     <Box sx={{ display: "flex" }}>
       <DashboardLayout />
@@ -28,45 +28,51 @@ export default function AddProduct() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          {/* insert form add products here */}
-          <FormAddProduct />
+          <FormEdit />
         </Container>
       </Box>
     </Box>
-  );
+  )
 }
 
-function FormAddProduct() {
-  const [image, setImage] = useState(null);
+function FormEdit() {
+  const [errorInput, setErrorInput] = useState(false);
+  const [category, setCategory] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [category, setCategory] = useState([]);
-  const [errorInput, setErrorInput] = useState(false);
+  const [product, setProduct] = useState({});
+  const [image, setImage] = useState();
+  const { productId } = useParams();
   const navigate = useNavigate();
 
-  
-  function inputImage(e) {
-    if (!e.target.files) {
-      return setImage(undefined);
-    }
-    setImage(e.target.files[0]);
-  }
   async function getCategory() {
     const data = await (await fetch('http://localhost:4000/api/v1/category', {
       credentials: 'include'
     })).json();
     setCategory(data)
   }
+  async function getProduct() {
+    const data = await (await fetch(`http://localhost:4000/api/v1/product/${productId}`)).json();
+    setProduct(data)
+    setImageUrl(data.img_url)
+  }
   useEffect(() => {
     getCategory()
+    getProduct()
   }, [])
 
+  function inputImage(e) {
+    if (!e.target.files) {
+      return setImage(undefined);
+    }
+    setImage(e.target.files[0]);
+  }
   useEffect(() => {
     if (image) {
       handleUpload()
     }
   }, [image])
-
+  
   function handleUpload() {
     const storageRef = ref(storage, `images/${Date.now()}+${image.name}`);
 
@@ -97,6 +103,7 @@ function FormAddProduct() {
       await deleteObject(imageRef);
       setImageUrl(prev => prev.filter((val, id) => (id !== idx)));
     } catch (error) {
+      setImageUrl(prev => prev.filter((val, id) => (id !== idx)))
       console.log(error.message)
     }
   }
@@ -104,17 +111,18 @@ function FormAddProduct() {
   return (
     <Formik
       initialValues={{
-        name: '',
-        stock: '',
-        price: '',
-        details: '',
-        category: '',
+        name: product.name || '',
+        stock: product.stock || '',
+        price: product.price || '',
+        details: product.details || '',
+        category: product.category || '',
       }}
+      enableReinitialize
       validationSchema={validationAddProduct}
       onSubmit={async (values) => {
         if (errorInput) return
-        const res = await fetch(`http://localhost:4000/api/v1/product`, {
-          method: 'POST',
+        const res = await fetch(`http://localhost:4000/api/v1/product/${productId}`, {
+          method: 'PUT',
           credentials: 'include',
           body: JSON.stringify({
             name: values.name,
@@ -235,13 +243,10 @@ function FormAddProduct() {
             />
             {
               formik.touched.details && formik.errors.details 
-                ? <Typography 
-                    variant="p"  
-                    sx={{color: 'red'}}
-                  >
-                    {formik.errors.details}
-                  </Typography>
-                : null
+              ? <Typography variant="p" sx={{color: 'red'}}>
+                  {formik.errors.details}
+                </Typography>
+              : null
             }
             
             <Button 
@@ -256,7 +261,7 @@ function FormAddProduct() {
                 })
               }}      
             >
-              ADD PRODUCT
+              EDIT PRODUCT
             </Button>
           </Paper>
 
