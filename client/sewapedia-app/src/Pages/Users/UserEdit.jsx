@@ -1,13 +1,31 @@
 import { Container, Typography } from "@mui/material";
 import { Toolbar } from "@mui/material";
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 
 function UserEdit() {
   const params = useParams();
   const id = params.id;
+
+  const [users, setUsers] = useState({
+    email: "",
+    img_url: "",
+  });
+
+  const getUser = async () => {
+    try {
+      await fetch("http://localhost:4000/api/users/" + id);
+      setUsers(users.data);
+    } catch (error) {
+      console.log("user tidak ditemukan");
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [id]);
 
   return (
     <Box sx={{ display: "flex" }}>

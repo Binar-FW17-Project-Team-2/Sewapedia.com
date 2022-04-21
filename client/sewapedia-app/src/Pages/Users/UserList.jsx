@@ -18,12 +18,22 @@ export default function UserList() {
     navigate("/user/edit/" + id);
   };
 
-  const handleDelete = (id) => {
-    alert("iya ini mau di ddelete " + id);
-    // fetch("http://localhost:5000/api/users/" + id, {
-    //   method: "DELETE",
-    //   credentials: "include",
-    // });
+  const handleDelete = async (id) => {
+    alert("ini yang mau didelete " + id);
+    await fetch("http://localhost:4000/api/users/" + id, {
+      method: "DELETE",
+      credentials: "include",
+    }).then((res) => {
+      if (res.status !== 200) {
+        return;
+      } else {
+        setUser(
+          users.filter((user) => {
+            return user.id !== id;
+          })
+        );
+      }
+    });
   };
 
   useEffect(() => {
