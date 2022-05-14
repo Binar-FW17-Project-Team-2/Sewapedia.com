@@ -3,7 +3,6 @@ const { isAuthenticated, roleAuthorization } = require("../../middleware");
 const { getUsers, getUserById, editUser, deleteUser } = require("../../controller/user");
 
 user.use(isAuthenticated);
-user.use(roleAuthorization('admin'));
 user.get("/", getUsers);
 user.post("/edit/:id", editUser);
 user.get("/:id", getUserById);

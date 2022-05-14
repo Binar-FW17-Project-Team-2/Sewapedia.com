@@ -19,8 +19,7 @@ module.exports = async (req, res, next) => {
     if (!auth) throw [0, { password: "invalid password" }];
     const token = createToken(payload);
     payload.token = token;
-    res
-      .cookie("token", token, {
+    res.cookie("token", token, {
         maxAge: maxAge * 1000,
         httpOnly: true,
       })

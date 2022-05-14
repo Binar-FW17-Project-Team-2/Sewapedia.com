@@ -20,7 +20,7 @@ export default function UserList() {
 
   const handleDelete = async (id) => {
     alert("ini yang mau didelete " + id);
-    await fetch("http://localhost:4000/api/users/" + id, {
+    await fetch("http://localhost:4000/api/v1/user/" + id, {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {
