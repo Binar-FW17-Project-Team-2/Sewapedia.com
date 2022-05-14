@@ -8,10 +8,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 export default function Product() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     getData();
@@ -26,6 +29,19 @@ export default function Product() {
     setData(rows);
     setLoading(false);
   }
+
+  const searchText = (e) => {
+    setQuery(e.target.value);
+  };
+
+  let dataSearch = data.filter((card) => {
+    return Object.keys(card).some((key) =>
+      card[key]
+        .toString()
+        .toLowerCase()
+        .includes(query.toString().toLowerCase())
+    );
+  });
 
   if (loading) {
     return (
@@ -43,10 +59,26 @@ export default function Product() {
   return (
     <>
       <NavBar />
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="searchBox"
+          label="Search"
+          variant="outlined"
+          value={query}
+          onChange={searchText.bind(this)}
+        />
+      </Box>
       <div>
         <h1 className="title-product">Our Product</h1>
         <div className="div-card">
-          {data.map((card, idx) => {
+          {dataSearch.map((card, idx) => {
             return (
               <MultiActionAreaCard
                 key={idx}
