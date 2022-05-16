@@ -4,7 +4,7 @@ const { getUsers, getUserById, editUser, deleteUser } = require("../../controlle
 
 user.use(isAuthenticated);
 user.get("/", getUsers);
-user.post("/edit/:id", editUser);
+user.put("/edit/:id", editUser);
 user.get("/:id", getUserById);
 user.delete("/:id", deleteUser);
 // implement delete kalo mau ada delete
