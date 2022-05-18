@@ -7,15 +7,18 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CookiesProvider } from "react-cookie";
 import { theme } from "./theme";
+import { UserProvider } from "./contexts/UserContexts";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
       <ThemeProvider theme={theme}>
+      <UserProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
+      </UserProvider>
       </ThemeProvider>
     </CookiesProvider>
   </React.StrictMode>,
