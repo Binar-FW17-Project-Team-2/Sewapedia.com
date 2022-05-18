@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-const sendReceipt = (to, payment) => {
+const sendReceipt = (to, order) => {
   return {
     from: process.env.EMAIL,
     to: to,
@@ -25,8 +25,8 @@ const sendReceipt = (to, payment) => {
         <li> bayar sesuai harga dibawah </li>
         <li> ambil barang yg anda sewa </li>
       </ol>
-      <h4>id pembayaran:${payment.id}<h4>
-      <h4>harga: ${payment.totalPrice}<h4>
+      <h4>id pembayaran:${order.id}<h4>
+      <h4>harga: ${order.totalPrice}<h4>
     `
   }
 }
