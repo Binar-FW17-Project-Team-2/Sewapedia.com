@@ -6,13 +6,13 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CookiesProvider } from "react-cookie";
+import { theme } from "./theme";
 
-const mdTheme = createTheme();
 
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
-      <ThemeProvider theme={mdTheme}>
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
