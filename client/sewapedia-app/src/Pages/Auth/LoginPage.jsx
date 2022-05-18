@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { validationLogin } from '../../utils/validation';
 import { TextInput } from '../../Component/CustomInput';
+import { useUser } from '../../contexts/UserContexts'
 
 function Copyright(props) {
   return (
@@ -35,6 +36,7 @@ const theme = createTheme();
 export default function LoginPage() {
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPw, setErrorPw] = useState(false);
+  const { setUser } = useUser();
   const navigate = useNavigate();
 
   function unsetError() {
@@ -98,7 +100,8 @@ export default function LoginPage() {
                 })
                 const data = await res.json()
                 if (res.status === 200) {
-                  localStorage.setItem('user', JSON.stringify(data[1]))
+                  localStorage.setItem('user', JSON.stringify(data[1]));
+                  setUser(data[1])
                   localStorage.setItem("access_token", data[1].token);
                   localStorage.setItem("role", data[1].role);
                   localStorage.setItem("userId", data[1].id);

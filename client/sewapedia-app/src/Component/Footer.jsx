@@ -1,54 +1,107 @@
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import Link from '@mui/material/Link';
-import { Typography } from "@mui/material";
+import { Box, Container, styled, Typography } from "@mui/material";
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 
 export default function Footer() {
   return (
-    <footer>
-      <Box
-        px={{ xs: 1, sm: 1 }}
-        py={{ xs: 1, sm: 4 }}
-        bgcolor="white"
-        color="#616161"
-      >
-        <Container maxWidth="lg">
-          <Grid container spacing={3}>
-            <Grid marginLeft="0.2rem" marginTop="50px">
-              <h2 className="title">Follow us on:</h2>
-            </Grid>
-            <Grid item xs={1} marginTop="50px">
-              <Link href='http://www.instagram.com'> <InstagramIcon/> </Link>
-            </Grid>
-            <Grid item xs={1} marginTop="50px">
-            <Link href='http://www.twitter.com'> <TwitterIcon/> </Link>
-            </Grid>
-            <Grid item xs={1} marginTop="50px">
-            <Link href='http://www.facebook.com'> <FacebookIcon/> </Link>
-            </Grid>
-            <Grid item xs={5.1} marginTop="50px"></Grid>
-            <Grid marginRight="1.5rem" marginTop="60px">
-            <Typography
-            variant="h6"
-            noWrap
-            sx={{ display: { xs: "none", sm: "block" } }}
-            to="/"
-            
-            
+    <Box
+      component='footer'
+      sx={{
+        boxSizing: 'border-box',
+        padding: '5px 15px',
+        backgroundColor: '#333',
+        width: '100%',
+      }}
+    >
+      <Container maxWidth='xl' sx={{
+        display: {
+          xs: 'block',
+          md: 'table'
+        },
+        height: '100%',
+        py: '10px',
+      }}>
+        <Box
+          sx={{
+            position: 'relative',
+            display: {
+              xs: 'inline',
+              md: 'table-cell'
+            },
+            textAlign: 'center',
+            verticalAlign: 'top',
+            width: '216px'
+          }}
+        >
+          <Box
+            sx={{
+              display:'flex',
+              justifyContent: {
+                xs: 'center',
+                md: 'start'
+              },
+              alignItems:'end',
+            }}
           >
-          <Link href="/" underline="none" color="black">
-           
-              Sewapedia.com
-           </Link>
-           </Typography>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-    </footer>
-  );
+            <SmartToyOutlinedIcon
+              sx={{
+                fontSize: '30px',
+                color: 'white'
+              }}
+            />
+            <Typography 
+              variant='body1' 
+              component='h1' 
+              fontWeight='bold'
+              fontFamily={'roboto'}
+              color='white'
+              sx={{}}
+            >
+              SEWA
+            </Typography>
+            <Typography  
+              variant='body1' 
+              component='h1' 
+              fontWeight='small'
+              color='white'
+            >
+              PEDIA
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+        sx={{
+          mt: {
+            xs: '15px',
+            md: 0
+          },
+          textAlign: {
+            xs: 'center',
+            md: 'left'
+          }
+        }}
+        >
+          <Address>Nama Perusahaan Sewapedia Co., Ltd.</Address>
+          <Address>Alamat#404, lantai 4, Jl.S Parman Kav 62-63 Jakarta 11410 Slipi</Address>
+          <Address>Nomor pendaftaran bisnis 744-81-01846</Address>
+          <br/>
+          <Address>Perwakilan Team2</Address>
+          <Address>Telepon 1833-9696</Address>
+          <Address>Faks 070-4850-8999</Address>
+          <br/>
+          <Address>Team2, Petugas Perlindungan Informasi Pribadi</Address>
+          <br/>
+          <Address>Copyright © 2022 Sewapedia Co., Ltd. All Rights Reserved.</Address>
+        </Box>
+      </Container>
+    </Box>
+  )
 }
+
+const Address = styled(Typography)(({theme}) => ({
+  display: 'inline-block',
+  paddingRight: '10px',
+  lineHeight: '18px',
+  fontSize: '12px',
+  fontWeight: 300,
+  color: 'rgba(255,255,255,0.5)'
+}))

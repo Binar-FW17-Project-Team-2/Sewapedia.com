@@ -11,7 +11,7 @@ import ResetPassword from "./Pages/Auth/ResetPassword";
 import Users from "./Pages/Users/Users";
 import Transactions from "./Pages/Transactions/Transactions";
 import DashboardMenu from "./Component/AdminDashboard/DashboardMenu";
-import Product from "./Pages/Product";
+// import Product from "./Pages/Product";
 import Category from "./Pages/Category/";
 import AddCategory from "./Pages/Category/AddCategory";
 import Products from "./Pages/Products/Products";
@@ -21,17 +21,24 @@ import SewaProduct from "./Pages/SewaProduct";
 import NotFound from "./Pages/NotFound";
 import EditProduct from "./Pages/Products/EditProduct";
 import EditCategory from "./Pages/Category/EditCategory";
+import Landing from './Pages/Landing';
+import Cart from './Pages/Cart'
+import Checkout from "./Pages/Checkout";
+import AllProduct from './Pages/AllProduct'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/product" element={<Product />} />
-      <Route path="/product/:productId" element={<SewaProduct />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/" element={<Home />} >
+        <Route index element={<Landing />}/>
+        <Route path='product' element={<AllProduct />} />
+        <Route path='product/:productId' element={<SewaProduct />}/>
+        <Route path='cart' element={<Cart />}/>
+        <Route path='checkout' element={<Checkout />} />
+        <Route path="faq" element={<FAQ />} />
+      </Route>
 
       <Route path="/about" element={<About />} />
-      <Route path="/faq" element={<FAQ />} />
       <Route path="/signIn" element={<LoginPage />} />
       <Route path="/signUp" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

@@ -6,6 +6,8 @@ const payment = require('./paymentRouter')
 const rented = require('./rentedRouter')
 const category = require('./categoryRoutes')
 const user = require('./userRouter')
+const cart = require('./cartRouter')
+const order = require('./orderRouter')
 
 v1.use('/', auth)
 v1.use('/product', product)
@@ -14,5 +16,7 @@ v1.use('/payment', payment)
 v1.use('/rented', rented)
 v1.use('/category', category)
 v1.use('/user', user)
+v1.use('/cart', cart)
+v1.use('/order', order)
 
 module.exports = v1

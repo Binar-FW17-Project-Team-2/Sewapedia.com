@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('rented_products', {
+    await queryInterface.createTable('orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,25 +16,25 @@ module.exports = {
           key: "id"
         }
       },
-      productId: {
+      status: {
+        type: Sequelize.ENUM,
+        values: ['unpayed', 'payed'],
+      },
+      totalPrice: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: "products",
-          key: "id"
-        }
-      },
-      rentalDate: {
-        type: Sequelize.DATEONLY,
         allowNull: false,
       },
-      returnDate: {
-        type: Sequelize.DATEONLY,
+      createdAt: {
         allowNull: false,
+        type: Sequelize.DATE
       },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('rented_products');
+    await queryInterface.dropTable('orders');
   }
 };

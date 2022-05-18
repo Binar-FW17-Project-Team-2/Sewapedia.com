@@ -23,18 +23,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'productId',
         otherKey: 'userId'
       })
-      Product.belongsToMany(models.User, {
-        through: models.RentedProduct,
-        as: 'user_rented',
-        foreignKey: 'productId',
-        otherKey: 'userId'
-      })
-      Product.hasMany(models.RentedProduct, {
-        foreignKey: 'productId'
-      })
       Product.belongsTo(models.Category, {
         foreignKey: 'category',
         as: 'Category'
+      })
+      Product.hasMany(models.OrderItem, {
+        foreignKey: 'productId',
+        as: 'productOrderItem'
       })
     }
   }
@@ -90,7 +85,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Product',
     tableName: 'products',
-    timestamps: false,
     hooks: {
       beforeCreate: categoryLowercase,
       beforeUpdate: categoryLowercase

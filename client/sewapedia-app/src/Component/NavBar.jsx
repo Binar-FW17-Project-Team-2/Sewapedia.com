@@ -1,251 +1,513 @@
-import * as React from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Badge,
-  MenuItem,
-  Menu,
-  Tab,
-  Tabs,
-  styled,
-  Button,
-} from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { grey } from "@mui/material/colors";
-import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import Link2 from '@mui/material/Link';
+import { 
+  Typography, 
+  Box, 
+  AppBar, 
+  Stack, 
+  styled, 
+  Container, 
+  Button, 
+  Menu, 
+  MenuItem, 
+  InputBase, 
+  IconButton, 
+  Drawer, 
+  Divider, 
+  ListItemIcon, 
+  ListItemButton, 
+  ListItemText, 
+  List, 
+  ListItem, 
+  Fade 
+} from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme'
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useUser } from '../contexts/UserContexts'
 
-const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(grey[400]),
-  backgroundColor: grey[500],
-  "&:hover": {
-    backgroundColor: grey[700],
-  },
-}));
+export default function Navbar() {
+  return (
+    <AppBar
+      color='transparent'
+      sx={{
+        position: {
+          xs: 'sticky',
+          md: 'relative'
+        },
+        top: 0,
+        boxShadow: '0px 3px 10px rgb(0 0 0 / 3%)'
+      }}
+    >
+      <Container
+        maxWidth='xl'
+        sx={{
+          padding: {
+            xs:0
+          }
+        }}
+      >
+        <NavTop/>
+        <Logo/>
+        <NavBot/>
+      </Container>
+    </AppBar>
+  )
+}
 
-export default function PrimarySearchAppBar() {
-  const [removeCookie] = useCookies(["token"]);
-  const [user, setUser] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  React.useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      setUser(true);
-    }
-  }, [user]);
-
-  const [tabValue, setTabValue] = React.useState("product");
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+function NavTop() {
+  const { user, setUser } = useUser();
 
   const handleLogout = async () => {
-    // clear cookie
-    // await removeCookie("token", { path: "/" });
-    // clear token, userId, and role from local storage
-    await localStorage.clear();
-    // setUser to false
-    await setUser(false);
-    // remove cookie 
+    ['user', 'userId', 'role', 'access_token'].forEach(v => localStorage.removeItem(v))
+    await setUser({});
     await fetch(`http://localhost:4000/api/v1/logout`, {
       credentials: 'include'
     })
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+  return (
+    <Box
+    sx={{
+      display:'flex',
+      justifyContent:'space-between',
+      alignItems:'center',
+      padding:'5px 15px',
+      backgroundColor: {
+        xs:'#F2F2F2',
+        md:'white'
+      }
+    }}
     >
-      {/* If you want to implement this as getting product by categories just map the categories first then set the value as the catogeries name */}
-      <MenuItem value="1" onClick={handleMenuClose}>
-        1
-      </MenuItem>
-      <MenuItem value="2" onClick={handleMenuClose}>
-        2
-      </MenuItem>
-      <MenuItem value="3" onClick={handleMenuClose}>
-        3
-      </MenuItem>
-      <MenuItem value="4" onClick={handleMenuClose} href="/Category">
-        4
-      </MenuItem>
-    </Menu>
-  );
+      <Box
+        sx={{
+          display:'flex',
+          alignItems:'center',
+          width:'250px',
+          height:'20px',
+          borderRadius:'10px',
+          backgroundColor: {
+            xs:'white',
+            md:'#F2F2F2'
+          },
+          marginLeft: {
+            xs:'auto',
+            md:0
+          }
+        }}
+      >
+        <InputBase
+          placeholder='serach product'
+          sx={{
+            flex:1,
+            height:'100%',
+            padding:'0 15px'
+          }}
+        />
+        <IconButton type="submit" sx={{ padding: '0 10px 0 0' }}>
+          <SearchIcon />
+        </IconButton>
+      </Box>
+      <Stack
+        position='relative'
+        direction='row'
+        sx={{
+          display: {
+            xs:'none',
+            md:'flex'
+          }
+        }}
+      >
+        {
+          user.id
+            ? <>
+              <TopMenu component={NavLink} to='/profil'>{`Hi, ${user.Biodata.firstName}`}</TopMenu>
+              <TopMenu onClick={handleLogout} component='a' sx={{cursor: 'pointer'}}>Logout</TopMenu>
+            </>
+            : <>
+              <TopMenu component={NavLink} to='/signin'>Login</TopMenu>
+              <TopMenu component={NavLink} to='/signup'>Register</TopMenu>
+            </>
+        }
+        <TopMenu component={NavLink} to='/about'>About Us</TopMenu>
+      </Stack>
+    </Box>
+  )
+}
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem></MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+function Logo() {
+  const navigate = useNavigate();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="static"
-        style={{ backgroundColor: "#7CD1F5", color: "#667080" }}
+    <Box sx={{
+      display:'flex', 
+      justifyContent:'center',
+      backgroundColor: {
+        xs:'primary.main',
+        md:'white'
+      }
+    }}
+    >
+      <Box
+        onClick={() => navigate('/')}
+        sx={{
+          display:'flex',
+          justifyContent:'center',
+          alignItems:'end',
+          cursor: 'pointer',
+        }}
       >
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{ display: { xs: "none", sm: "block" } }}
-            to="/"
-            color="grey"
-            
-          >
-          <Link2 href="/" underline="none" color="#424242">
-           
-              LOGO
-           </Link2>
-          </Typography>
+        <SmartToyOutlinedIcon
+          sx={{
+            fontSize: '56px',
+            color:{
+              xs:'black',
+              md:'primary.main'
+            }
+          }}
+        />
+        <Typography 
+          variant='h4' 
+          component='h1' 
+          fontWeight='bold'
+          fontFamily={'roboto'}
+          sx={{
+            color:{
+              xs:'black',
+              md:'primary.main'
+            }
+          }}
+        >
+          SEWA
+        </Typography>
+        <Typography  
+          variant='h4' 
+          component='h1' 
+          fontWeight='small'
+          sx={{
+            color:{
+              xs:'white',
+              md:'black'
+            }
+          }}
+        >
+          PEDIA
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
 
-          <Tabs sx={{ marginLeft: "150px", color: "black" }} value={tabValue}>
-            <Tab label="Products" href="/product" />
-            <Button
-              mt="-100px"
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              disableElevation
-              onClick={handleClick}
-              endIcon={<KeyboardArrowDownIcon />}
-              
+const stylePaper = createTheme(theme, {
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          border: '1px solid #DDDDDD'
+        }
+      }
+    }
+  }
+})
+
+function NavBot() {
+  const { user } = useUser();
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  function handleOpen(e) {
+    setOpen(true)
+    setAnchorEl(e.currentTarget)
+  }
+
+  function handleClose() {
+    setOpen(false)
+    setAnchorEl(null)
+  }
+
+  return (
+    <ThemeProvider theme={stylePaper}>
+      <Box
+        sx={{
+          display:'flex',
+          alignItems:'center',
+          backgroundColor: 'white'
+        }}
+      >
+        <Stack
+          position='relative'
+          direction='row'
+        >
+          <Button 
+          onClick={handleOpen}
+          sx={{
+            color:'black',
+          }}
+          >
+            <MenuIcon fontSize='large'/>
+            <BotLeftMenu 
+              sx={{
+                '&:after': {height:0},
+                display:{
+                  xs:'none',
+                  md:'inline'
+                }
+              }}
             >
               Category
-            </Button>
-            <Tab label="Contact & About Us" href="/about" />
-          </Tabs>
+            </BotLeftMenu>
+          </Button>
+          <BotLeftMenu component={NavLink} to='/product'>Product</BotLeftMenu>
+          <BotLeftMenu component={NavLink} to='/faq'>FAQ</BotLeftMenu>
+          {
+            user.role === 'admin'
+              ? <BotLeftMenu component={NavLink} to='/dashboard'>Dashboard</BotLeftMenu>
+              : null
+          }
+        </Stack>
+        <Stack
+          position='relative'
+          direction='row'
+          ml='auto'
+          sx={{
+            display:{
+              xs:'none',
+              md:'flex'
+            }
+          }}
+        >
+          <BotRightMenu component={NavLink} to='/cart'>
+            <ShoppingCartOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> cart
+          </BotRightMenu>
+          <BotRightMenu component={NavLink} to='/wishlist'>
+            <FavoriteBorderOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> wishlist
+          </BotRightMenu>
+          <BotRightMenu component={NavLink} to='/mypage'>
+            <PersonOutlineOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> MyPage
+          </BotRightMenu>
+        </Stack>
 
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" aria-label color="inherit">
-              <Badge color="error">
-                {/* icon */}
-                <ShoppingCartOutlinedIcon />
-              </Badge>
-            </IconButton>
-            {/* button login&register */}
-            {user ? (
-              <ColorButton onClick={() => handleLogout()}>Logout</ColorButton>
-            ) : (
-              <>
-                <Link to="/signin">
-                  <ColorButton variant="contained">Login</ColorButton>
-                </Link>
-                <Link to="/signup">
-                  <ColorButton variant="contained">Register</ColorButton>
-                </Link>
-              </>
-            )}
+        {/* menu jika category di klik */}
+        {/* menu pc */}
+        <Box
+          component={Menu}
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          id="nav-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          sx={{
+            boxShadow:'none',
+            display: {
+              xs: 'none',
+              md: 'block'
+            }
+          }}
+        >
+          <MenuItem onClick={handleClose}>kendaraan</MenuItem>
+          <MenuItem onClick={handleClose}>brick</MenuItem>
+          <MenuItem onClick={handleClose}>boneka</MenuItem>
+        </Box>
+        {/* menu mobile */}
+        <Drawer
+          anchor='left'
+          open={open}
+          onClose={handleClose}
+          sx={{display: {md:'none'}, border:'none'}}
+        >
+          <Box
+            sx={{
+              width:'calc(100vw - 60px)'
+            }}
+          >
+            <MobileMenu/>
+          </Box>
+        </Drawer>
 
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              // onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
-  );
+      </Box>
+    </ThemeProvider>
+  )
 }
+
+function MobileMenu() {
+  const { user, setUser } = useUser();
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    await setUser({});
+    await fetch(`http://localhost:4000/api/v1/logout`, {
+      credentials: 'include'
+    })
+  };
+
+  return (
+    <>
+      <Box
+      sx={{
+        boxSizing: 'border-box',
+        width: '100%',
+        padding: '15px',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'primary.main'
+      }}
+    > 
+      {
+        user.id
+          ? <Box
+              sx={{
+                width: '40px',
+                height: '40px',
+                flexShrink: 0,
+                mr:'10px',
+                borderRadius: '50%',
+              }}
+            >
+              <img src={user.img_url} alt={user.Biodata.firstName} style={{width: '100%'}}/>
+            </Box>
+          : null
+      }
+      <Box>
+        <Typography
+          component='p'
+          variant='p'
+          sx={{
+            color: "rgba(255,255,255,0.8)"
+          }}
+        >
+          {
+            user.id
+              ? user.Biodata.firstName
+              : `Hallo, pelanggan silahkan login :-)`
+          }
+        </Typography>
+      </Box>
+      <Button
+        {
+          ...(user.id)
+            ? {onClick: handleLogout}
+            : {component: NavLink, to: '/login'}
+        }
+        sx={{
+          padding: '6px 16px',
+          borderRadius: '50vh',
+          backgroundColor: "rgba(255,255,255,0.8)",
+          ml:'auto'
+        }}
+      >
+        {user.id? 'Logout' : 'Login'}
+      </Button>
+      </Box>
+
+      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+      <nav aria-label="main mailbox folders">
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <PersonOutlineOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="PROFIL" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <FavoriteBorderOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="WISHLIST" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <ShoppingCartOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="CART" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </nav>
+      <Divider />
+      <nav aria-label="secondary mailbox folders">
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="Category" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="#simple-list">
+              <ListItemText primary="last seen today" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </nav>
+      </Box>
+    </>
+  )
+}
+
+const TopMenu = styled(Typography)(({theme}) => ({
+  position:'relative',
+  display:'block',
+  color: 'black',
+  textDecoration: 'none',
+  padding: '10px 10px',
+  '&:nth-of-type(n+2):before' : {
+    content: '""',
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    width: '1px',
+    height: '30%',
+    background: '#333'
+  },
+  '&:hover': {
+    color:`${theme.palette.primary.main}`
+  }
+}));
+
+const BotLeftMenu = styled(TopMenu)(({theme}) => ({
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8em',
+  },
+  fontSize:'1em',
+  fontWeight:'600',
+  textTransform:'uppercase',
+  padding:'10px 15px',
+  display:'flex',
+  alignItems:'center',
+  '&:hover': {color: 'black'},
+  '&:after': {
+    content:'""',
+    position:'absolute',
+    bottom:0,
+    left:'50%',
+    width:0,
+    height:'3px',
+    transform:'translate(-50%, 0)',
+    opacity:0,
+    backgroundColor:`${theme.palette.primary.main}`,
+    transition: `${theme.transitions.create(['all'], {
+      duration:'0.8s',
+      easing:'ease',
+    })}`
+  },
+  '&:hover:after': {
+    content:'""',
+    width:'calc(100% - 20px)',
+    opacity:1,
+  }
+}));
+
+const BotRightMenu = styled(BotLeftMenu)(() => ({
+  '&:nth-of-type(n+2):before': {height:0}
+})); 

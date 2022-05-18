@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Payment extends Model {
+  class OrderItem extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,15 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Payment.belongsTo(models.User, {
-        foreignKey: 'userId'
+      OrderItem.belongsTo(models.Product, {
+        foreignKey: 'productId',
+        as: 'productDetails'
       })
-      Payment.belongsTo(models.Product, {
-        foreignKey: 'productId'
+      OrderItem.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'tenant'
+      })
+      OrderItem.belongsTo(models.Order, {
+        foreignKey: 'orderId',
+        as: 'order'
       })
     }
   }
-  Payment.init({
+  OrderItem.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -50,22 +56,42 @@ module.exports = (sequelize, DataTypes) => {
         isInt: {msg: 'quantity must be number'}
       }
     },
-    status: {
-      type: DataTypes.ENUM,
-      values: ['cart', 'paymnent', 'rented', 'returned']
-    },
-    price: {
+    priceItem: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notNull: {msg: 'cannot be null'},
-        isInt: {msg: 'total price must be number'}
+        isInt: {msg: 'price Item must be number'}
       }
+    },
+    subTotalPrice: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: {msg: 'price Item must be number'}
+      }
+    },
+    status: {
+      type: DataTypes.ENUM,
+      values: ['cart', 'order', 'rented']
     },
   }, {
     sequelize,
-    modelName: 'Payment',
-    tableName: 'payments',
+    modelName: 'OrderItem',
+    tableName: 'order_items',
+    // setterMethods: {
+    //   subTotalPrice() {
+    //     const price = this.priceItem * this.qty * this.lamaSewa
+    //     this.setDataValue('subTotalPrice', price);
+    //   }
+    // },
+    hooks: {
+      beforeCreate: setSubToTalPrice,
+      beforeUpdate: setSubToTalPrice
+    }
   });
-  return Payment;
+  return OrderItem;
+
+  function setSubToTalPrice(item, options) {
+    item.subTotalPrice = item.priceItem * item.qty * item.lamaSewa;
+  }
 };
