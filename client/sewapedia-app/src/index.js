@@ -4,21 +4,27 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider } from "react-cookie";
 import { theme } from "./theme";
 import { UserProvider } from "./contexts/UserContexts";
+import { ToastProvider } from "./contexts/ToastContext";
+import { LastSeenProvider } from "./contexts/LastSeenContext";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
       <ThemeProvider theme={theme}>
-      <UserProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserProvider>
+        <UserProvider>
+          <ToastProvider>
+            <LastSeenProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </LastSeenProvider>
+          </ToastProvider>
+        </UserProvider>
       </ThemeProvider>
     </CookiesProvider>
   </React.StrictMode>,
