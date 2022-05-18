@@ -1,25 +1,35 @@
+import { Snackbar } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import NavBar from "../Component/NavBar";
 import Footer from "../Component/Footer";
-import logo from "../image/header-image.jpeg";
-// import TextMobileStepper from "../Component/Carousel";
+import Navbar from "../Component/NavBar";
+import SideMenu from "../Component/SideMenu";
+import { useToast } from "../contexts/ToastContext";
 
 export default function Home() {
+  const {toast, setToast} = useToast();
+
+  const closeSnackbar = (event, reason) => {
+    if (reason === 'clickaway') { return; }
+    setToast(prev => ({...prev, open: false}));
+  };
+
   return (
     <>
-      <NavBar />
-      <center>
-        <img src={logo} alt="Logo" />
-        {/* <TextMobileStepper/> */}
-        <div id="container">
-          <div id="footer">
-            This is a footer. This stays at the bottom of the page.
-          </div>
-        </div>
-      </center>
-
-      <Outlet />
-      <Footer />
+      <SideMenu />
+      <Navbar/>
+      <Outlet/>
+      <Footer/>
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={4000}
+        onClose={closeSnackbar}
+        message={toast.msg}
+        {
+          ...(toast.bgColor)
+            ? {sx: {'& div': { backgroundColor: toast.bgColor }}}
+            : {}
+        }
+      />
     </>
-  );
+  )
 }
