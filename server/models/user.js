@@ -29,14 +29,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         otherKey: 'productId'
       })
-      User.belongsToMany(models.Product, {
-        through: models.RentedProduct,
-        as: 'product_rented',
+      User.hasMany(models.Order, {
         foreignKey: 'userId',
-        otherKey: 'productId'
+        as: 'myOrder'
       })
-      User.hasMany(models.RentedProduct, {
-        foreignKey: 'userId'
+      User.hasOne(models.OrderItem, {
+        foreignKey: 'userId',
+        as: 'myItem'
       })
     }
   }

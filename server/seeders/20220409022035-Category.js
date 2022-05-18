@@ -8,9 +8,13 @@ module.exports = {
         details: 'mainan yg mempunyai roda'
       },
       {
-        name: 'brick',
-        details: 'mainan yg bisa bongkar pasang'
-      }
+        name: 'boneka',
+        details: 'boneka manekin'
+      },
+      {
+        name: 'trap',
+        details: 'jaldkfjl kja ldfj'
+      },
     ], {});
   },
 
