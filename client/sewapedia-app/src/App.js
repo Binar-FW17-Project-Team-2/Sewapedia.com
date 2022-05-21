@@ -25,6 +25,9 @@ import Landing from './Pages/Landing';
 import Cart from './Pages/Cart'
 import Checkout from "./Pages/Checkout";
 import AllProduct from './Pages/AllProduct'
+import Wishlist from './Pages/Wishlist'
+
+
 
 export default function App() {
   return (
@@ -43,6 +46,10 @@ export default function App() {
       <Route path="/signUp" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/resetpassword/:token" element={<ResetPassword />} />
+      <Route path="/wishlist" element={<Wishlist />}/>
+      
+ 
+
       {/* admin dashboard */}
       <Route path="/categories" element={<Category />} />
       <Route path="/category/add" element={<AddCategory />} />
