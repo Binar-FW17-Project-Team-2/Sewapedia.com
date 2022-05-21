@@ -1,6 +1,9 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import ListProduct from "../Component/ListProduct";
+import Carousel from "../Component/Carousel";
+import { Divider } from "@mui/material";
+
 
 export default function Home() {
   const [products1, setProducts1] = useState([])
@@ -43,15 +46,18 @@ export default function Home() {
       pt={1}
     >
       <Box
+        
         sx={{
           width:'100%',
-          height:'510px',
+          height:'600px',
           maxHeight:'100vw',
           backgroundColor:'#30694D'
         }}
       >
-      </Box>
+        <Carousel/>
+      </Box> 
       <Box>
+        
         <ListProduct 
           title='Bagaimana Dengan Ini'
           products={products1}

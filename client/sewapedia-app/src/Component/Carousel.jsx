@@ -1,99 +1,101 @@
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import { useTheme } from '@mui/material/styles';
-// import MobileStepper from '@mui/material/MobileStepper';
-// import Paper from '@mui/material/Paper';
-// import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
-// import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-// import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Carousel from 'react-bootstrap/Carousel'
+import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import ListProduct from "../Component/ListProduct";
 
-// //ERROR 
 
-// const images = [
-//   {
-//     label: 'San Francisco – Oakland Bay Bridge, United States',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-//   {
-//     label: 'Bird',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-//   {
-//     label: 'Bali, Indonesia',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
-//   },
-//   {
-//     label: 'Goč, Serbia',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-// ];
+function ControlledCarousel() {
+    const [index, setIndex] = useState(0);
+  
+    const handleSelect = (selectedIndex, e) => {
+      setIndex(selectedIndex);
+    };
 
-// export default function TextMobileStepper() {
-//   const theme = useTheme();
-//   const [activeStep, setActiveStep] = React.useState(0);
-//   const maxSteps = images.length;
+    const [products1, setProducts1] = useState([])
+    const [products2, setProducts2] = useState([])
+    const [products3, setProducts3] = useState([])
 
-//   const handleNext = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-//   };
+useEffect(() => {
+  getProducts1()
+  getProducts2()
+  getProducts3()
+},[]);
 
-//   const handleBack = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-//   };
+async function getProducts1() {
+  const { rows } = await (
+    await fetch("http://localhost:4000/api/v1/product?limit=3&offset=6", {
+      credentials: "include",
+    })
+  ).json();
+  setProducts1(rows);
+}
+async function getProducts2() {
+  const { rows } = await (
+    await fetch("http://localhost:4000/api/v1/product?limit=3&offset=4", {
+      credentials: "include",
+    })
+  ).json();
+  setProducts2(rows);
+}
 
-//   return (
-//     <Box sx={{ maxWidth: 700, flexGrow: 1 }}>
-//       <Paper
-//         square
-//         elevation={0}
-//         sx={{
-//           display: 'flex',
-//           alignItems: 'center',
-//           height: 50,
-//           pl: 2,
-//           bgcolor: 'background.default',
-//         }}
-//       >
-//         <Typography>{images[activeStep].label}</Typography>
-//       </Paper>
-//       <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
-//         {images[activeStep].description}
-//       </Box>
-//       <MobileStepper
-//         variant="text"
-//         steps={maxSteps}
-//         position="static"
-//         activeStep={activeStep}
-//         nextButton={
-//           <Button
-//             size="small"
-//             onClick={handleNext}
-//             disabled={activeStep === maxSteps - 1}
-//           >
-//             Next
-//             {theme.direction === 'rtl' ? (
-//               <KeyboardArrowLeft />
-//             ) : (
-//               <KeyboardArrowRight />
-//             )}
-//           </Button>
-//         }
-//         backButton={
-//           <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-//             {theme.direction === 'rtl' ? (
-//               <KeyboardArrowRight />
-//             ) : (
-//               <KeyboardArrowLeft />
-//             )}
-//             Back
-//           </Button>
-//         }
-//       />
-//     </Box>
-//   );
-// }
+async function getProducts3() {
+  const { rows } = await (
+    await fetch("http://localhost:4000/api/v1/product?limit=3&offset=3", {
+      credentials: "include",
+    })
+  ).json();
+  setProducts3(rows);
+}
+  
+    return (
+      <Carousel activeIndex={index} onSelect={handleSelect}>
+        <Carousel.Item>
+          <ListProduct
+            className="d-block w-100"
+            // src="https://static-asset-delivery.hasbroapps.com/49353ef64445d631a90dfb959c9d085e06c08bc0/cb2c07019b1f6313fe89bb7693c9827c.png"
+            alt="First slide"
+            width='100' 
+            height='200'
+            products={products1}
+          />
+          <Carousel.Caption>
+            {/* <h3>Nerf Plastic Disruptor Elite</h3> */}
+            {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <ListProduct
+            className="d-block w-100"
+            // src="https://static-asset-delivery.hasbroapps.com/49353ef64445d631a90dfb959c9d085e06c08bc0/ee082400c5001c69c9bb254b1084d7f0.png"
+            alt="Second slide"
+            width='100' 
+            height='500'
+            products={products2}
+          />
+  
+          <Carousel.Caption>
+            {/* <h3>Second slide label</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <ListProduct
+            
+            alt="Third slide"
+            width='100' 
+            height='100'
+            products={products3}
+          />
+  
+          <Carousel.Caption>
+            <h3></h3>
+            <p>
+            </p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
+    );
+  }
+  
+
+export default ControlledCarousel

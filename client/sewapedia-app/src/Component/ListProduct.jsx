@@ -54,7 +54,7 @@ export default function ListProduct({title, products}) {
       >
         {
           !products.length
-            ? <Typography>products tidaak ada</Typography>
+            ? <Typography>products tidak ada</Typography>
             : products.map((product) => <Card product={product} sx={{width: { xs: '43.5%',  md: '33.33%' }}} key={product.id}/>)
         }
       </Box>

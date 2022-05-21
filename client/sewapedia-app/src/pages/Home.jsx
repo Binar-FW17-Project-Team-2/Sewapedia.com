@@ -4,6 +4,7 @@ import Footer from "../Component/Footer";
 import Navbar from "../Component/NavBar";
 import SideMenu from "../Component/SideMenu";
 import { useToast } from "../contexts/ToastContext";
+// import Carousel from "../Component/Carousel";
 
 export default function Home() {
   const {toast, setToast} = useToast();
