@@ -24,7 +24,8 @@ import EditCategory from "./Pages/Category/EditCategory";
 import Landing from './Pages/Landing';
 import Cart from './Pages/Cart'
 import Checkout from "./Pages/Checkout";
-import AllProduct from './Pages/AllProduct'
+import AllProduct from './Pages/AllProduct';
+import UserProfile from "./Pages/Users/UserProfile";
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/products/add" element={<AddProduct />} />
       <Route path="/products/edit/:productId" element={<EditProduct />} />
+      <Route path="/profile/:id" element={<UserProfile />} />
       {/* pls implement not found */}
       <Route path="404" element={<NotFound />} />
       <Route path="/*" element={<Navigate to="/404" />} />
