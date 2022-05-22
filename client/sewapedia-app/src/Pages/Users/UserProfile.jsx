@@ -34,10 +34,10 @@ export default function UserProfile() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {data?.firstName}
+            {data?.Biodata.firstName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {data?.lastName} {data?.address}
+            {data?.Biodata.lastName} {data?.Biodata.address}
           </Typography>
         </CardContent>
       </Card>

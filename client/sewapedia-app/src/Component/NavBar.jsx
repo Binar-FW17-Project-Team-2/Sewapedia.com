@@ -288,7 +288,7 @@ function NavBot() {
           <BotRightMenu component={NavLink} to='/wishlist'>
             <FavoriteBorderOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> wishlist
           </BotRightMenu>
-          <BotRightMenu component={NavLink} to='/mypage'>
+          <BotRightMenu component={NavLink} to='/profile/:id'>
             <PersonOutlineOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> MyPage
           </BotRightMenu>
         </Stack>
