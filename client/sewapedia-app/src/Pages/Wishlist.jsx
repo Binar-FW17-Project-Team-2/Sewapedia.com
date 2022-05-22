@@ -41,7 +41,10 @@ export default function Wishlist() {
                 method: 'DELETE',
                 credentials: 'include'
             })
-            window.location.reload()
+            const newData = [...product]
+            const index = product.findIndex((data) => data.id === productId)
+            newData.splice(index, 1)
+            setProduct(newData)
         } catch (error) {
             console.log(error)
         }
