@@ -94,7 +94,7 @@ export default function FormEditCategory() {
             color="info"
             variant="contained"
           >
-            EDIT PRODUCT
+            SUBMIT
           </Button>
         </Paper>
       )}
