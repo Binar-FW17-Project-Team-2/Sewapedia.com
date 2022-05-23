@@ -5,6 +5,7 @@ import { CardContent } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Navbar from "../../Component/NavBar";
 
 export default function UserProfile() {
   const params = useParams();
@@ -24,6 +25,7 @@ export default function UserProfile() {
 
   return (
     <>
+      <Navbar/>
       <h1>Halaman User Profile</h1>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
