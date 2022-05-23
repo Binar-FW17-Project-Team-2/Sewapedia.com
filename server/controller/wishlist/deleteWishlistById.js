@@ -3,7 +3,7 @@ const { Wishlist } = require('../../models')
 module.exports = async(req,res) => {
     try {
         const userId = req.query.userId
-        const productId = req.body.productId
+        const productId = req.query.productId
         const deleteWishlist = Wishlist.destroy({
             where: {
               userId: userId,

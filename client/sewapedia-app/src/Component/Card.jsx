@@ -126,6 +126,36 @@ function Action({product}) {
     } 
   }
 
+
+  async function addingWishlist(e){
+    e.stopPropagation();
+    const userId = localStorage.getItem('userId')
+    const res = await fetch(`http://localhost:4000/api/v1/wishlist?userId=${userId}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        productId: product.id
+      }),
+      headers: {"Content-Type": "application/json"}
+    })
+    const data = await res.json()
+    if (res.status === 200) {
+      setToast({
+        open: true,
+        msg: data.message,
+        bgColor: 'success.main'
+      })
+    } else {
+      setToast({
+        open: true,
+        msg: 'fail to adding wishlist',
+        bgColor: 'error.main'
+      })
+    } 
+  }
+
+  
+
   return (
     <Box
       sx={{
@@ -137,7 +167,7 @@ function Action({product}) {
         transition: '.5s'
       }}
     >
-      <Btn>
+      <Btn onClick={addingWishlist}>
         <FavoriteBorderOutlinedIcon sx={{color: 'white'}}/>
       </Btn>
       <Btn  onClick={addToCart} >
