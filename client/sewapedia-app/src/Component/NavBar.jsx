@@ -315,12 +315,8 @@ function NavBot() {
             />{" "}
             wishlist
           </BotRightMenu>
-          <BotRightMenu component={NavLink} to="/mypage">
-            <PersonOutlineOutlinedIcon
-              fontSize="small"
-              sx={{ paddingRight: "5px" }}
-            />{" "}
-            MyPage
+          <BotRightMenu component={NavLink} to='/profile/:id'>
+            <PersonOutlineOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> MyPage
           </BotRightMenu>
         </Stack>
 

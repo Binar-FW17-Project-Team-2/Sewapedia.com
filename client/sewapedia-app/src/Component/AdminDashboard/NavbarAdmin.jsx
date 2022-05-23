@@ -46,6 +46,10 @@ export default function NavBarAdmin({ open, setOpen }) {
     setAnchorEl(null);
   };
 
+  const handleProfile = (id) => {
+    navigate('/profile/' + id);
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/signin");
@@ -100,7 +104,7 @@ export default function NavBarAdmin({ open, setOpen }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>

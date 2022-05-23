@@ -5,44 +5,41 @@ import { CardContent } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Navbar from "../../Component/NavBar";
 
 export default function UserProfile() {
   const params = useParams();
-  const [data, setData] = useState(null);
+  const id = params.id;
+  const [data, setData] = useState();
 
+  async function getUser() {
+    const dataProfile = await (await fetch ("http://localhost:4000/api/v1/profile/" + id, {
+      credentials: "include"
+    })).json();
+    setData(dataProfile)
+    console.log(data)
+  }
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetch(`http://localhost:4000/user/${params.id}`, {
-          headers: { access_token: localStorage.getItem("access_token") },
-        });
-        const body = await result.json([]);
-        setData(body);
-      } catch (err) {
-        // error handling code
-      }
-    };
-
-    // call the async fetchData function
-    fetchData();
-  }, [params]);
+    getUser()
+  }, []);
 
   return (
     <>
+      <Navbar/>
       <h1>Halaman User Profile</h1>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
           height="140"
-          image={data?.image_url}
-          alt={data.id}
+          image={data?.img_url}
+          alt={data?.id}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {data?.name}
+            {data?.Biodata.firstName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {data?.email} {data?.role}
+            {data?.Biodata.lastName} {data?.Biodata.address}
           </Typography>
         </CardContent>
       </Card>
