@@ -1,47 +1,27 @@
-import {
-  Typography,
-  Box,
-  AppBar,
-  Stack,
-  styled,
-  Container,
-  Button,
-  Menu,
-  MenuItem,
-  InputBase,
-  IconButton,
-  Drawer,
-  Divider,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
-  List,
-  ListItem,
-  Fade,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { theme } from "../theme";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useUser } from "../contexts/UserContexts";
-
+import { Typography, Box, AppBar, Stack, styled, Container, Button, Menu, MenuItem, InputBase, IconButton, Drawer, Divider, ListItemIcon, ListItemButton, ListItemText, List, ListItem, Fade } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
+import MenuIcon from '@mui/icons-material/Menu';
+// import SearchIcon from '@mui/icons-material/Search';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useUser } from '../contexts/UserContexts';
+import { Coba } from '../Pages/AllProduct';
 export default function Navbar() {
   return (
     <AppBar
       color="transparent"
       sx={{
         position: {
-          xs: "sticky",
-          md: "relative",
+          xs: 'sticky',
+          md: 'relative',
         },
         top: 0,
-        boxShadow: "0px 3px 10px rgb(0 0 0 / 3%)",
+        boxShadow: '0px 3px 10px rgb(0 0 0 / 3%)',
       }}
     >
       <Container
@@ -64,41 +44,39 @@ function NavTop() {
   const { user, setUser } = useUser();
 
   const handleLogout = async () => {
-    ["user", "userId", "role", "access_token"].forEach((v) =>
-      localStorage.removeItem(v)
-    );
+    ['user', 'userId', 'role', 'access_token'].forEach((v) => localStorage.removeItem(v));
     await setUser({});
     await fetch(`http://localhost:4000/api/v1/logout`, {
-      credentials: "include",
+      credentials: 'include',
     });
   };
 
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "5px 15px",
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '5px 15px',
         backgroundColor: {
-          xs: "#F2F2F2",
-          md: "white",
+          xs: '#F2F2F2',
+          md: 'white',
         },
       }}
     >
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          width: "250px",
-          height: "20px",
-          borderRadius: "10px",
+          display: 'flex',
+          alignItems: 'center',
+          width: '250px',
+          height: '20px',
+          borderRadius: '10px',
           backgroundColor: {
-            xs: "white",
-            md: "#F2F2F2",
+            xs: 'white',
+            md: '#F2F2F2',
           },
           marginLeft: {
-            xs: "auto",
+            xs: 'auto',
             md: 0,
           },
         }}
@@ -120,22 +98,15 @@ function NavTop() {
         direction="row"
         sx={{
           display: {
-            xs: "none",
-            md: "flex",
+            xs: 'none',
+            md: 'flex',
           },
         }}
       >
         {user.id ? (
           <>
-            <TopMenu
-              component={NavLink}
-              to="/profil"
-            >{`Hi, ${user.Biodata.firstName}`}</TopMenu>
-            <TopMenu
-              onClick={handleLogout}
-              component="a"
-              sx={{ cursor: "pointer" }}
-            >
+            <TopMenu component={NavLink} to="/profil">{`Hi, ${user.Biodata.firstName}`}</TopMenu>
+            <TopMenu onClick={handleLogout} component="a" sx={{ cursor: 'pointer' }}>
               Logout
             </TopMenu>
           </>
@@ -163,29 +134,29 @@ function Logo() {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
+        display: 'flex',
+        justifyContent: 'center',
         backgroundColor: {
-          xs: "primary.main",
-          md: "white",
+          xs: 'primary.main',
+          md: 'white',
         },
       }}
     >
       <Box
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "end",
-          cursor: "pointer",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'end',
+          cursor: 'pointer',
         }}
       >
         <SmartToyOutlinedIcon
           sx={{
-            fontSize: "56px",
+            fontSize: '56px',
             color: {
-              xs: "black",
-              md: "primary.main",
+              xs: 'black',
+              md: 'primary.main',
             },
           }}
         />
@@ -193,11 +164,11 @@ function Logo() {
           variant="h4"
           component="h1"
           fontWeight="bold"
-          fontFamily={"roboto"}
+          fontFamily={'roboto'}
           sx={{
             color: {
-              xs: "black",
-              md: "primary.main",
+              xs: 'black',
+              md: 'primary.main',
             },
           }}
         >
@@ -209,8 +180,8 @@ function Logo() {
           fontWeight="small"
           sx={{
             color: {
-              xs: "white",
-              md: "black",
+              xs: 'white',
+              md: 'black',
             },
           }}
         >
@@ -226,8 +197,8 @@ const stylePaper = createTheme(theme, {
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: "none",
-          border: "1px solid #DDDDDD",
+          boxShadow: 'none',
+          border: '1px solid #DDDDDD',
         },
       },
     },
@@ -253,25 +224,25 @@ function NavBot() {
     <ThemeProvider theme={stylePaper}>
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "white",
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: 'white',
         }}
       >
         <Stack position="relative" direction="row">
           <Button
             onClick={handleOpen}
             sx={{
-              color: "black",
+              color: 'black',
             }}
           >
             <MenuIcon fontSize="large" />
             <BotLeftMenu
               sx={{
-                "&:after": { height: 0 },
+                '&:after': { height: 0 },
                 display: {
-                  xs: "none",
-                  md: "inline",
+                  xs: 'none',
+                  md: 'inline',
                 },
               }}
             >
@@ -284,7 +255,7 @@ function NavBot() {
           <BotLeftMenu component={NavLink} to="/faq">
             FAQ
           </BotLeftMenu>
-          {user.role === "admin" ? (
+          {user.role === 'admin' ? (
             <BotLeftMenu component={NavLink} to="/dashboard">
               Dashboard
             </BotLeftMenu>
@@ -296,27 +267,19 @@ function NavBot() {
           ml="auto"
           sx={{
             display: {
-              xs: "none",
-              md: "flex",
+              xs: 'none',
+              md: 'flex',
             },
           }}
         >
           <BotRightMenu component={NavLink} to="/cart">
-            <ShoppingCartOutlinedIcon
-              fontSize="small"
-              sx={{ paddingRight: "5px" }}
-            />{" "}
-            cart
+            <ShoppingCartOutlinedIcon fontSize="small" sx={{ paddingRight: '5px' }} /> cart
           </BotRightMenu>
           <BotRightMenu component={NavLink} to="/wishlist">
-            <FavoriteBorderOutlinedIcon
-              fontSize="small"
-              sx={{ paddingRight: "5px" }}
-            />{" "}
-            wishlist
+            <FavoriteBorderOutlinedIcon fontSize="small" sx={{ paddingRight: '5px' }} /> wishlist
           </BotRightMenu>
-          <BotRightMenu component={NavLink} to='/profile/:id'>
-            <PersonOutlineOutlinedIcon fontSize='small' sx={{paddingRight:'5px'}}/> MyPage
+          <BotRightMenu component={NavLink} to="/profile/:id">
+            <PersonOutlineOutlinedIcon fontSize="small" sx={{ paddingRight: '5px' }} /> MyPage
           </BotRightMenu>
         </Stack>
 
@@ -331,10 +294,10 @@ function NavBot() {
           open={open}
           onClose={handleClose}
           sx={{
-            boxShadow: "none",
+            boxShadow: 'none',
             display: {
-              xs: "none",
-              md: "block",
+              xs: 'none',
+              md: 'block',
             },
           }}
         >
@@ -343,15 +306,10 @@ function NavBot() {
           <MenuItem onClick={handleClose}>Boneka</MenuItem>
         </Box>
         {/* menu mobile */}
-        <Drawer
-          anchor="left"
-          open={open}
-          onClose={handleClose}
-          sx={{ display: { md: "none" }, border: "none" }}
-        >
+        <Drawer anchor="left" open={open} onClose={handleClose} sx={{ display: { md: 'none' }, border: 'none' }}>
           <Box
             sx={{
-              width: "calc(100vw - 60px)",
+              width: 'calc(100vw - 60px)',
             }}
           >
             <MobileMenu />
@@ -369,7 +327,7 @@ function MobileMenu() {
     localStorage.clear();
     await setUser({});
     await fetch(`http://localhost:4000/api/v1/logout`, {
-      credentials: "include",
+      credentials: 'include',
     });
   };
 
@@ -377,29 +335,25 @@ function MobileMenu() {
     <>
       <Box
         sx={{
-          boxSizing: "border-box",
-          width: "100%",
-          padding: "15px",
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "primary.main",
+          boxSizing: 'border-box',
+          width: '100%',
+          padding: '15px',
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: 'primary.main',
         }}
       >
         {user.id ? (
           <Box
             sx={{
-              width: "40px",
-              height: "40px",
+              width: '40px',
+              height: '40px',
               flexShrink: 0,
-              mr: "10px",
-              borderRadius: "50%",
+              mr: '10px',
+              borderRadius: '50%',
             }}
           >
-            <img
-              src={user.img_url}
-              alt={user.Biodata.firstName}
-              style={{ width: "100%" }}
-            />
+            <img src={user.img_url} alt={user.Biodata.firstName} style={{ width: '100%' }} />
           </Box>
         ) : null}
         <Box>
@@ -407,30 +361,26 @@ function MobileMenu() {
             component="p"
             variant="p"
             sx={{
-              color: "rgba(255,255,255,0.8)",
+              color: 'rgba(255,255,255,0.8)',
             }}
           >
-            {user.id
-              ? user.Biodata.firstName
-              : `Hallo, pelanggan silahkan login :-)`}
+            {user.id ? user.Biodata.firstName : `Hallo, pelanggan silahkan login :-)`}
           </Typography>
         </Box>
         <Button
-          {...(user.id
-            ? { onClick: handleLogout }
-            : { component: NavLink, to: "/login" })}
+          {...(user.id ? { onClick: handleLogout } : { component: NavLink, to: '/login' })}
           sx={{
-            padding: "6px 16px",
-            borderRadius: "50vh",
-            backgroundColor: "rgba(255,255,255,0.8)",
-            ml: "auto",
+            padding: '6px 16px',
+            borderRadius: '50vh',
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            ml: 'auto',
           }}
         >
-          {user.id ? "Logout" : "Login"}
+          {user.id ? 'Logout' : 'Login'}
         </Button>
       </Box>
 
-      <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
         <nav aria-label="main mailbox folders">
           <List>
             <ListItem disablePadding>
@@ -480,58 +430,58 @@ function MobileMenu() {
 }
 
 const TopMenu = styled(Typography)(({ theme }) => ({
-  position: "relative",
-  display: "block",
-  color: "black",
-  textDecoration: "none",
-  padding: "10px 10px",
-  "&:nth-of-type(n+2):before": {
+  position: 'relative',
+  display: 'block',
+  color: 'black',
+  textDecoration: 'none',
+  padding: '10px 10px',
+  '&:nth-of-type(n+2):before': {
     content: '""',
-    position: "absolute",
-    top: "35%",
+    position: 'absolute',
+    top: '35%',
     left: 0,
-    width: "1px",
-    height: "30%",
-    background: "#333",
+    width: '1px',
+    height: '30%',
+    background: '#333',
   },
-  "&:hover": {
+  '&:hover': {
     color: `${theme.palette.primary.main}`,
   },
 }));
 
 const BotLeftMenu = styled(TopMenu)(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "0.8em",
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8em',
   },
-  fontSize: "1em",
-  fontWeight: "600",
-  textTransform: "uppercase",
-  padding: "10px 15px",
-  display: "flex",
-  alignItems: "center",
-  "&:hover": { color: "black" },
-  "&:after": {
+  fontSize: '1em',
+  fontWeight: '600',
+  textTransform: 'uppercase',
+  padding: '10px 15px',
+  display: 'flex',
+  alignItems: 'center',
+  '&:hover': { color: 'black' },
+  '&:after': {
     content: '""',
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    left: "50%",
+    left: '50%',
     width: 0,
-    height: "3px",
-    transform: "translate(-50%, 0)",
+    height: '3px',
+    transform: 'translate(-50%, 0)',
     opacity: 0,
     backgroundColor: `${theme.palette.primary.main}`,
-    transition: `${theme.transitions.create(["all"], {
-      duration: "0.8s",
-      easing: "ease",
+    transition: `${theme.transitions.create(['all'], {
+      duration: '0.8s',
+      easing: 'ease',
     })}`,
   },
-  "&:hover:after": {
+  '&:hover:after': {
     content: '""',
-    width: "calc(100% - 20px)",
+    width: 'calc(100% - 20px)',
     opacity: 1,
   },
 }));
 
 const BotRightMenu = styled(BotLeftMenu)(() => ({
-  "&:nth-of-type(n+2):before": { height: 0 },
+  '&:nth-of-type(n+2):before': { height: 0 },
 }));
