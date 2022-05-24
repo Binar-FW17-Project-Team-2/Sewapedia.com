@@ -11,6 +11,30 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import DashboardLayout from "../../Component/AdminDashboard/DashboardLayout";
 
+export default function EditUser() {
+  return (
+    <Box sx={{ display: "flex" }}>
+      <DashboardLayout />
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
+        <Toolbar />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <UserEdit />
+        </Container>
+      </Box>
+    </Box>
+  )
+}
 
 function UserEdit() {
   const params = useParams();
@@ -113,4 +137,3 @@ function UserEdit() {
 
 }
 
-export default UserEdit;
