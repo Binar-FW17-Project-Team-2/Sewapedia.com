@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Toolbar } from "@mui/material";
 import { Box } from "@mui/material";
 import React from "react";
@@ -54,17 +54,10 @@ export default Products;
 function ProductList() {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
+  const [dialog, setDialog] = useState({open: false})
 
   const handleEdit = (id) => {
     navigate("/products/edit/" + id);
-  };
-
-  const handleDelete = (id) => {
-    alert("iya ini mau di ddelete " + id);
-    // fetch("http://localhost:5000/api/users/" + id, {
-    //   method: "DELETE",
-    //   credentials: "include",
-    // });
   };
 
   useEffect(() => {
@@ -108,13 +101,49 @@ function ProductList() {
                 <TableCell align="center">{product.price}</TableCell>
                 <TableCell align="center">
                   <TableEditUser id={product.id} handleEdit={handleEdit} />
-                  <TableDeleteUser id={product.id} handleDelete={handleDelete} />
+                  <TableDeleteUser 
+                    handleDelete={() => {setDialog({
+                      open: true,
+                      productId: product.id
+                    })}}   
+                  />
                 </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
+      <DialogDelete dialog={dialog} setDialog={setDialog} setProduct={setProduct}/>
     </TableContainer>
+  );
+}
+
+function DialogDelete({dialog, setDialog, setProduct}) {
+  function handleClose() {
+    setDialog({open: false});
+  };
+
+  function handleDelete() {
+    fetch(`http://localhost:4000/api/v1/product/${dialog.productId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    setProduct(prev => prev.filter((val) => (val.id !== dialog.productId)))
+    setDialog({open: false})
+  }
+
+  return (
+      <Dialog open={dialog.open} onClose={handleClose}>
+        <DialogTitle>Hapus Product</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Yakin mau dihapus? gak kepencet??
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleDelete}>Hapus</Button>
+          </DialogActions>
+      </Dialog>
   );
 }
